@@ -5,9 +5,32 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(0, 200, 255); 
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.square {
+  width: 100px;        /* Size of the square */
+  height: 100px;       /* Size of the square */
+  background-color: white; /* Background color of the square */
+  /* You can add more styling as needed */
+}
+
+
+.home {
+  text-align: left; /* or default alignment for the text */
+  height: 100vh;    /* Adjust this as needed */
+}
+
+
+.square-wrapper {
+  display: flex;             /* Enable Flexbox */
+  justify-content: center;   /* Center horizontally */
+  align-items: center;       /* Center vertically */
+  height: 100%;              /* Take full height of its parent */
+}
+
