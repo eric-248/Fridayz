@@ -14,10 +14,19 @@ code {
 }
 
 .square {
-  width: 100px;        /* Size of the square */
-  height: 100px;       /* Size of the square */
+  
+  width: 100%; /* Takes full width of its parent (.square-wrapper) */
+  height: 100%; /* Takes full height of its parent */
   background-color: white; /* Background color of the square */
+  margin-right: 10px;
   /* You can add more styling as needed */
+}
+
+.comments {
+ 
+  width: 60%; /* Adjust the width as needed */
+  height: 100%; /* Full height of the parent container */
+  background-color: rgb(255, 255, 255); /* Example styling */
 }
 
 
@@ -28,9 +37,15 @@ code {
 
 
 .square-wrapper {
-  display: flex;             /* Enable Flexbox */
-  justify-content: center;   /* Center horizontally */
-  align-items: center;       /* Center vertically */
-  height: 100%;              /* Take full height of its parent */
+
+  display: flex;
+  width: 90%; /* 60% of its parent container width */
+  height: 85%; /* Example height, adjust as needed */
+  margin-left: 5%; /* Aligns the wrapper to the right */
+  margin-top: 20px;
+  justify-content: space-between; /* This will create space between the children */
+  margin-right: 5%; /* Ensures the wrapper is centered */
 }
+
+
 
