@@ -5,6 +5,7 @@ import Navbar from "./NavBar";
 import FriendPage from "./FriendPage";
 import NotFound from "./NotFound";
 import ProfilePage from "./ProfilePage";
+import Post from "./Post";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {

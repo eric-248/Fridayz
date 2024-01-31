@@ -18,16 +18,27 @@ code {
   width: 100%; /* Takes full width of its parent (.square-wrapper) */
   height: 100%; /* Takes full height of its parent */
   background-color: white; /* Background color of the square */
-  margin-right: 10px;
+  margin-right: 40px;
   /* You can add more styling as needed */
 }
 
-.comments {
- 
-  width: 60%; /* Adjust the width as needed */
-  height: 100%; /* Full height of the parent container */
+
+.addToBean-container {
+  width: 60%; /* Sets the width of the input container to 60% of its parent */
+  height: 98%; /* Adjust based on content, ensures the container wraps the input tightly */
   background-color: rgb(255, 255, 255); /* Example styling */
+  display: flex; /* Utilizes flexbox for centering, if needed */
+
 }
+
+.addToBean-input {
+  width: 100%; /* Makes the input take the full width of its container */
+  height: 100%; /* Optional, depending on the desired height */
+  /* Additional input styling */
+  border: 1px solid #ccc; /* Example border styling */
+  padding: 8px 12px; /* Example padding for better text visibility */
+}
+
 
 
 .home {
@@ -40,7 +51,7 @@ code {
 
   display: flex;
   width: 90%; /* 60% of its parent container width */
-  height: 85%; /* Example height, adjust as needed */
+  height: 80%; /* Example height, adjust as needed */
   margin-left: 5%; /* Aligns the wrapper to the right */
   margin-top: 20px;
   justify-content: space-between; /* This will create space between the children */
