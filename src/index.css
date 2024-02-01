@@ -18,7 +18,9 @@ code {
   width: 100%; /* Takes full width of its parent (.square-wrapper) */
   height: 100%; /* Takes full height of its parent */
   background-color: white; /* Background color of the square */
-  margin-right: 40px;
+  margin-right: 40px; 
+  overflow-y: auto; /* Allows vertical scrolling if content overflows */
+  overflow-x: hidden; /* Hides horizontal overflow */
   /* You can add more styling as needed */
 }
 
