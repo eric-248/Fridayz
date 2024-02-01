@@ -41,7 +41,7 @@ code {
   height: 100%; /* Optional, depending on the desired height */
   /* Additional input styling */
   border: 1px solid #ccc; /* Example border styling */
-  padding: 8px 12px; /* Example padding for better text visibility */
+  resize: none;
 }
 
 
