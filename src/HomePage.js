@@ -7,13 +7,24 @@ const HomePage = () => {
   const [beans, setBeans] = useState([]);
 
   const handleAddBean = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { // Prevent adding a bean when Shift+Enter is pressed
-      e.preventDefault(); // Prevent the default action to avoid newline in textarea
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
       const newBean = e.target.value;
       if (newBean.trim() !== '') {
-        setBeans([...beans, newBean]);
-        e.target.value = ''; // Clear the textarea
+        setBeans([...beans, { type: 'text', content: newBean }]);
+        e.target.value = '';
       }
+    }
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setBeans([...beans, { type: 'image', content: event.target.result }]);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -22,14 +33,20 @@ const HomePage = () => {
       <div className="square-wrapper">
         <div className="square">
           {beans.map((bean, index) => (
-            <div key={index}>{bean}</div>
+            bean.type === 'text' ? <div key={index}>{bean.content}</div> :
+            <img key={index} src={bean.content} alt="Uploaded" style={{ maxWidth: '100%', maxHeight: '800' }} />
           ))}
         </div>
         <div className="addToBean-container">
           <textarea
             className="addToBean-input"
-            placeholder="Type here..." //We can add some prompts or questions here too.  Like have an array and randomize it
+            placeholder="Type here..."
             onKeyDown={handleAddBean}
+          />
+          <input
+            type="file"
+            onChange={handleImageUpload}
+            accept="image/*"
           />
         </div>
       </div>
@@ -38,5 +55,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-

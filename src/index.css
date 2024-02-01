@@ -26,8 +26,11 @@ code {
 
 
 .addToBean-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 60%; /* Sets the width of the input container to 60% of its parent */
-  height: 98%; /* Adjust based on content, ensures the container wraps the input tightly */
+  height: 100%; /* Adjust based on content, ensures the container wraps the input tightly */
   background-color: rgb(255, 255, 255); /* Example styling */
   display: flex; /* Utilizes flexbox for centering, if needed */
 
