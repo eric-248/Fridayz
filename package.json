@@ -1,5 +1,9 @@
 {
   "name": "cs35l-final-project",
+  "author": "chris,daniel,lauren, drew", 
+  "keywords": ["Fridays","blogging","timed-app"], 
+  "license": "MIT", 
+  "description": "A timed app that allows users to post bloggs on fridays", 
   "version": "0.1.0",
   "private": true,
   "dependencies": {
