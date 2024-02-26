@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(0, 200, 255); 
+  background-color: rgb(0, 255, 225); 
 }
 
 code {
@@ -62,6 +62,37 @@ code {
   justify-content: space-between; /* This will create space between the children */
   margin-right: 5%; /* Ensures the wrapper is centered */
 }
+
+
+/* for profile */
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.profile-header {
+  margin-bottom: 20px;
+}
+
+.profile-picture {
+  width: 150px; /* Adjust the size as needed */
+  height: 150px; /* Ensure this matches the width for a perfect circle */
+  border-radius: 50%; /* This creates the circular shape */
+  object-fit: cover; /* Ensures the image covers the space without distortion */
+  border: 3px solid #ddd; /* Optional: adds a border around the image */
+}
+
+.profile-bio {
+  font-size: 16px;
+}
+
+
+
+
 
 
 
