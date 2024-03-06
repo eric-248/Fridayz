@@ -39,7 +39,7 @@ export const Login = () => {
 
             </form>
 
-            {/* add register  */}
+            {/* add button to allow users to register */}
             <button>Don't have an account? Register.</button>
         </>
         
