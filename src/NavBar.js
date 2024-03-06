@@ -12,9 +12,9 @@ const Navbar = () => {
       <h1 onClick={handleClick}>Fridays</h1>
       <div className="links">
         <Link to="/">Home</Link>
-
         <Link to="/profile">Profile</Link>
         <Link to="/friends">Friends</Link>
+        <Link to="/login">Login</Link>
       </div>
     </nav>
   );
