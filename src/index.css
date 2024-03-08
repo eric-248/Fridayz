@@ -90,12 +90,59 @@ code {
   font-size: 16px;
 }
 
+.profile-nav {
+  width: 50px; /* Adjust the size as needed */
+  height: 50px; /* Ensure this matches the width for a perfect circle */
+  border-radius: 50%; /* This creates the circular shape */
+  object-fit: cover; /* Ensures the image covers the space without distortion */
+  border: 3px solid #ddd; /* Optional: adds a border around the image */
+}
+
 
 .logo-small {
   width: 100vw;
   height: auto;
   min-width: 50px;
   max-width: 200px;
+}
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px; /* Adjust padding as needed */
+}
+
+.links {
+  display: flex;
+  gap: 20px; /* Adjust the gap between links as needed */
+}
+
+
+.profile-nav-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%; /* Position right below the profile image */
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: auto;
+  padding: 10px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: black;
 }
 
 
