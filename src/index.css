@@ -91,6 +91,15 @@ code {
 }
 
 
+.logo-small {
+  width: 100vw;
+  height: auto;
+  min-width: 50px;
+  max-width: 200px;
+}
+
+
+
 
 
 
