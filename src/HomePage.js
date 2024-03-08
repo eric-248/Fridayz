@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import paperClipIcon from './paper-clip.svg'; // Make sure this path is correct
+import paperClipIcon from './Pictures/paper-clip.svg'; // Make sure this path is correct
 
 const HomePage = () => {
   const [beans, setBeans] = useState([]);

@@ -1,4 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
+import logo from './Pictures/Fridayz-Smaller.png'; 
+import './index.css'; // Adjust the path as needed
+
 
 const Navbar = () => {
   const history = useNavigate();
@@ -9,9 +12,10 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <h1 onClick={handleClick}>Fridays</h1>
+      <Link to="/">
+        <img src= {logo} alt="Fridayz" className="logo-small" />
+      </Link>
       <div className="links">
-        <Link to="/">Home</Link>
         <Link to="/profile">Profile</Link>
         <Link to="/friends">Friends</Link>
         <Link to="/login">Login</Link>
