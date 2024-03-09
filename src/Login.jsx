@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 //import Link
 import {Link} from 'react-router-dom';
+//import css
+import './Authentication.css';
 
 //define function Login
 export const Login = () => {
@@ -24,27 +26,33 @@ export const Login = () => {
 
     return (
 
-        <>
-            {/* link submit function via onSubmit
-            onSubmit will fire the handleSubmit funvtion everytime a form is submitted */}
-            <form onSubmit={handleSubmit}>
+        <div className="login-page">
+            <div className="auth-form-container">
+            
+                <h2>Login</h2>
+                {/* link submit function via onSubmit
+                onSubmit will fire the handleSubmit funvtion everytime a form is submitted */}
+                <form className="login-form" onSubmit={handleSubmit}>
 
-                {/*Email*/}
-                <label for="email">Email</label>
-                <input value = {email} type="email" placeholder="abc@gmail.com" id="email" name="email"/>
+                    {/*Email*/}
+                    <label for="email">Email</label>
+                    <input value = {email} type="email" placeholder="abc@gmail.com" id="email" name="email"/>
 
-                {/*Password*/}
-                <label for="password">Password</label>
-                <input value = {pass} type="password" placeholder="******" id="password" name="password"/>
+                    {/*Password*/}
+                    <label for="password">Password</label>
+                    <input value = {pass} type="password" placeholder="*********" id="password" name="password"/>
 
-                {/*Add Button */}
-                <button>Log In</button>
+                    {/*Add Button */}
+                    <button>Log In</button>
 
-            </form>
+                </form>
 
-            {/* add link to allow users to register */}
-            <Link to="/register">Don't have an account? Register.</Link>
-        </>
+                {/* add link to allow users to register */}
+                <Link to="/register" style={{color: 'white'}}>Don't have an account? Register.</Link>
+
+            </div>
+        </div>
+        
         
     )
 }
