@@ -1,5 +1,9 @@
 import React, {useState} from "react";
 import {Link} from 'react-router-dom';
+
+//import css
+import "./Authentication.css"
+
 //define React functional componenet named 'Register'
 export const Register = () => {
 
@@ -15,7 +19,14 @@ export const Register = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+
+        <div className="registration-page">
+            
+            <div className="auth-from-container">
+
+                <h2>Register</h2>
+                
+                <form className="registration-form" onSubmit={handleSubmit}>
 
                 {/* Name*/}
                 <label for="name">Name</label>
@@ -27,11 +38,16 @@ export const Register = () => {
 
                 {/*Password*/}
                 <label for="password">Password</label>
-                <input value = {pass} type="password" placeholder="******" id="password" name="password"/>
+                <input value = {pass} type="password" placeholder="*********" id="password" name="password"/>
 
                 {/*Login if already have account*/}
-                <Link to="/login">Already have an account? Login.</Link>
+                <Link to="/login" style={{color: 'white'}}>Already have an account? Login.</Link>
 
-            </form>
+                </form>
+            </div>
+
+        </div>
+
+        
     )
 }
