@@ -13,9 +13,11 @@ import {Login} from "./Login";
 import {Register} from "./Register";
 
 function App() {
+
   return (
     <BrowserRouter>
       <div className="App">
+
         <Navbar />
         <div className="content">
           <Routes>
@@ -23,6 +25,7 @@ function App() {
             <Route path="/profile" element={<ProfilePage />}></Route>
             <Route path="/friends" element={<FriendPage />}></Route>
             <Route path="/login" element={<Login />}></Route>
+            <Route path="/register" element={<Register />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </div>
