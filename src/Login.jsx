@@ -1,6 +1,8 @@
 //to capture values of email and password
 //state variables allow us to capture the values and perform further processing
 import React, { useState } from "react";
+//import Link
+import {Link} from 'react-router-dom';
 
 //define function Login
 export const Login = () => {
@@ -14,7 +16,7 @@ export const Login = () => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
 
-    {/* Function to handle state submission */}
+    // Function to handle state submission 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(email);
@@ -33,14 +35,15 @@ export const Login = () => {
 
                 {/*Password*/}
                 <label for="password">Password</label>
-                <input value = {pass} type="password" placeholder="******" id="password" name="pawword"/>
+                <input value = {pass} type="password" placeholder="******" id="password" name="password"/>
+
                 {/*Add Button */}
                 <button>Log In</button>
 
             </form>
 
-            {/* add button to allow users to register */}
-            <button>Don't have an account? Register.</button>
+            {/* add link to allow users to register */}
+            <Link to="/register">Don't have an account? Register.</Link>
         </>
         
     )
