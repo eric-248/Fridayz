@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 
-const Post = () => {
+const Comments = () => {
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState('');
 
@@ -33,5 +33,5 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default Comments;
 
