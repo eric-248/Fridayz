@@ -1,11 +1,13 @@
-import logo from "./logo.svg";
+
 import "./App.css";
 import HomePage from "./HomePage";
 import Navbar from "./NavBar";
 import FriendPage from "./FriendPage";
 import NotFound from "./NotFound";
 import ProfilePage from "./ProfilePage";
-import Post from "./Post";
+import Comments from "./Comments";
+import Posts from './Posts';
+import Beans from './Beans';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 //import Login and Register Page
@@ -26,7 +28,9 @@ function App() {
             <Route path="/friends" element={<FriendPage />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
-            <Route path="/Post" element={<Post />}></Route>
+            <Route path="/Posts" element={<Posts />}></Route>
+            <Route path="/Comments" element={<Comments />}></Route>
+            <Route path="/Beans" element={<Beans />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </div>
