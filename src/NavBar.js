@@ -22,9 +22,12 @@ const Navbar = () => {
           <img src="https://via.placeholder.com/150" alt="Profile" className="profile-nav"/>
           {isDropdownVisible && (
             <div className="dropdown-menu">
+              <Link to="/profile">Profile</Link>
               <Link to="/friends">Friends</Link>
               <Link to="/login">Login</Link>
-              <Link to="/profile">Profile</Link>
+              {/*The post link is temp.  Will be removed once done
+              <Link to="/Post">Post</Link> */}
+               
             </div>
           )}
         </div>
