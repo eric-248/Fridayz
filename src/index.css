@@ -21,7 +21,7 @@ code {
   margin-right: 40px; 
   overflow-y: auto; /* Allows vertical scrolling if content overflows */
   overflow-x: hidden; /* Hides horizontal overflow */
-  /* You can add more styling as needed */
+  border-radius: 10px; 
 }
 
 
@@ -33,6 +33,7 @@ code {
   height: 100%; /* Adjust based on content, ensures the container wraps the input tightly */
   background-color: rgb(255, 255, 255); /* Example styling */
   display: flex; /* Utilizes flexbox for centering, if needed */
+  border-radius: 10px; 
 
 }
 
@@ -42,6 +43,7 @@ code {
   /* Additional input styling */
   border: 1px solid #ccc; /* Example border styling */
   resize: none;
+  border-radius: 10px; 
 }
 
 
@@ -68,6 +70,7 @@ code {
   margin-top: 20px;
   justify-content: space-between; /* This will create space between the children */
   margin-right: 5%; /* Ensures the wrapper is centered */
+  border-radius: 10px; 
 }
 
 

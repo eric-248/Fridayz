@@ -1,6 +1,9 @@
 
 import React, { useState } from 'react';
+import './index.css';
 
+
+/*
 const Comments = () => {
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState('');
@@ -28,6 +31,16 @@ const Comments = () => {
           />
           <button onClick={handleAddComment}>Submit</button>
         </div>
+      </div>
+    </div>
+  );
+};
+*/
+const Comments = () => {
+  return (
+    <div className="addToBean-container" style={{ display: 'flex', alignItems: 'left' }}>
+      <div className="square">
+        {/* Content that will be able to scroll vertically if it overflows goes here */}
       </div>
     </div>
   );
