@@ -52,6 +52,13 @@ code {
 }
 
 
+
+.app-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+
 .square-wrapper {
 
   display: flex;
@@ -184,6 +191,25 @@ code {
   cursor: pointer;
 }
 
+
+.comments-container {
+  max-height: 200px; /* Adjust the height as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ccc; /* Optional: adds a border around the comments container */
+  padding: 10px; /* Adds some padding inside the container */
+  margin-top: 20px; /* Separates the container from elements above it */
+}
+
+
+.post-component {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60%; /* Sets the width of the input container to 60% of its parent */
+  height: 100%; /* Adjust based on content, ensures the container wraps the input tightly */
+  background-color: rgb(255, 255, 255); /* Example styling */
+  display: flex; /* Utilizes flexbox for centering, if needed */
+}
 
 
 
