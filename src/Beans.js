@@ -48,22 +48,23 @@ const Beans = ({addBean}) => {
               <img key={index} src={bean.content} alt="Uploaded" style={{ maxWidth: '100%', maxHeight: '800px' }} />
             ))}
           </div>
-          <div className="addToBean-container" style={{ display: 'flex', alignItems: 'left' }}>
+          <div className="addToBean-container" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <textarea
               className="addToBean-input"
               placeholder="Type here..."
               value={textInput}
               onChange={textInputHandler}
+              style={{ flexGrow: 1 }}
             />
-            {/* Adjusted image/icon to the left of the button */}
-            <img
-              src={paperClipIcon}
-              alt="Upload"
-              onClick={triggerFileInput}
-              style={{ cursor: 'pointer', width: '24px', marginRight: '10px' }} // Adjust size and spacing as needed
-            />
-            <button onClick={handleAddBean}>Add To Bean</button>
-            {/* Invisible file input */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img
+                src={paperClipIcon}
+                alt="Upload"
+                onClick={triggerFileInput}
+                style={{ cursor: 'pointer', width: '20px', marginRight: '10px' }}
+              />
+              <button onClick={handleAddBean}>Add To Bean</button>
+            </div>
             <input
               type="file"
               ref={fileInputRef}
