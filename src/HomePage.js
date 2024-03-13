@@ -17,9 +17,9 @@ const HomePage = () => {
     setShowPosts(true); // Update state to show posts
     axios
       .post("http://localhost:5050/record/users/register", {
-        email: "user1@example.com",
-        username: "user1",
-        password: "password123",
+        email: "user1234@gmail.com",
+        username: "user1234",
+        password: "password1234",
       })
       .then((response) => {
         console.log(response.data);

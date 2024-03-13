@@ -247,37 +247,8 @@ router.patch("user/bio/:_id", async (req, res) => {
 //   }
 // });
 
-//login stuff
-// router.post("/register", async (req, res) => {
-//   try {
-//     const user = new UserObject({
-//       username: req.body.username,
-//       friends: [],
-//       email: req.body.email,
-//       password: req.body.password,
-//     });
-//     if(!user.username){
-//       return res.json({error: "username is required"})
-//     }
-//     if(!user.email){
-//       return res.json({error: "email is required"})
-//     }
-//     if(!user.password){
-//       return res.json({error: "password is required"})
-//     }
-
-//     const exist = await UserObject.findOne(user.email);
-//     if(exist){
-//       return res.json({
-//         error: "email is already in use"
-//       })
-//     }
-//     const userCreate = await UserObject.create(user);
-//   } catch (error) {}
-// });
-
-//create a user
-router.post("/users/register/", async (req, res) => {
+//create a user to register
+router.post("/users/register", async (req, res) => {
   try {
     const collection = db.collection("users");
     const dupUser = await collection.findOne({ username: req.body.username });
@@ -285,41 +256,41 @@ router.post("/users/register/", async (req, res) => {
       res.json({ error: "Duplicate username exists." });
       return;
     }
+    const dupEmailUser = await collection.findOne({ email: req.body.email });
+    if (dupEmailUser) {
+      res.json({ error: "Duplicate email exists." });
+      return;
+    }
 
-    const user = new UserObject({
+    const addedUser = await collection.insertOne({
       username: req.body.username, // Use the username from route parameters
       friends: [],
       email: req.body.email, // Access email from request body
       password: req.body.password, // Access password from request body
+      bio: "",
     });
 
-    await user.save();
-    res.json(user);
-    //res.status(201).json(user); // Send the created user object in the response
+    const user = {
+      _id: addedUser.insertedId, // Use insertedId to get the ID of the inserted document
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      friends: [],
+      bio: "",
+    };
+
+    res.json({
+      _id: addedUser.insertedId, // Use insertedId to get the ID of the inserted document
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      friends: [],
+      bio: "",
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error adding user");
   }
 });
-
-// try {
-//   // Attempt to insert the new user object into the database
-//   const newUser = await UserObject.create(req.body);
-//   // If successful, send a success response
-//   res.status(201).json(newUser);
-// } catch (error) {
-//   // If a duplicate key error occurs (username or email), send an error response
-//   if (error.code === 11000 && error.keyPattern) {
-//     if (error.keyPattern.username) {
-//       res.status(400).json({ error: "Username already exists. Please choose a different one." });
-//     } else if (error.keyPattern.email) {
-//       res.status(400).json({ error: "Email already exists. Please use a different one." });
-//     }
-//   } else {
-//     // For other errors, send a generic error response
-//     console.error("Error adding user:", error);
-//     res.status(500).json({ error: "Failed to add user. Please try again later." });
-//   }
-// }
 
 export default router;
