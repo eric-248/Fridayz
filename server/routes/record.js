@@ -293,4 +293,21 @@ router.post("/users/register", async (req, res) => {
   }
 });
 
+//login feature
+router.post("/users/login", async (req, res) => {
+  const { email, password } = req.body;
+  const collection = db.collection("users");
+  const user = await collection.findOne({ email });
+  if (!user) {
+    res.json({ error: "Account with this email does not exist" });
+    return;
+  }
+
+  if (user.password === req.body.password) {
+    res.json(user);
+  } else {
+    res.json({ error: "Incorrect password" });
+  }
+});
+
 export default router;
