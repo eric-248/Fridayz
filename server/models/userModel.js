@@ -7,6 +7,7 @@ const UserObject = mongoose.model(
     username: {
       type: String,
       required: true,
+      unique: true,
     },
     friends: {
       type: [String],
@@ -15,6 +16,7 @@ const UserObject = mongoose.model(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
