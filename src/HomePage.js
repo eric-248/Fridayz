@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Beans from "./Beans";
 import Comments from "./Comments";
 import Posts from "./Posts";
+import axios from "axios";
 
 const HomePage = () => {
   const [beans, setBeans] = useState([]);
@@ -13,22 +14,27 @@ const HomePage = () => {
 
   const handlePostBeans = async () => {
     setShowPosts(true); // Update state to show posts
-
-    e.preventDefault();
-    let result = await fetch("http://localhost:5000/register", {
-      method: "post",
-      body: JSON.stringify({ name, email }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    result = await result.json();
-    console.warn(result);
-    if (result) {
-      alert("Data saved succesfully");
-      setEmail("");
-      setName("");
-    }
+    axios
+      .get("http://localhost:5050/record/beans")
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch(console.error);
+    // e.preventDefault();
+    // let result = await fetch("http://localhost:5000/register", {
+    //   method: "post",
+    //   body: JSON.stringify({ name, email }),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    // result = await result.json();
+    // console.warn(result);
+    // if (result) {
+    //   alert("Data saved succesfully");
+    //   setEmail("");
+    //   setName("");
+    // }
   };
 
   return (
