@@ -12,7 +12,7 @@ const PostObject = mongoose.model(
       type: Number,
       default: 0,
     },
-    thoughts: {
+    beans: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: "BeanObject" }],
       default: [],
     },

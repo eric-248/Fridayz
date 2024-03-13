@@ -6,7 +6,8 @@ import axios from "axios";
 
 const HomePage = () => {
   const [beans, setBeans] = useState([]);
-  const [showPosts, setShowPosts] = useState(false); // New state to manage showing posts
+  const [showPosts, setShowPosts] = useState(true); // New state to manage showing posts
+  //SET SHOW POSTS TO TRUE FOR NOW TO EDIT IT
 
   const addBean = (bean) => {
     setBeans((prevBeans) => [...prevBeans, bean]);
@@ -15,7 +16,7 @@ const HomePage = () => {
   const handlePostBeans = async () => {
     setShowPosts(true); // Update state to show posts
     axios
-      .get("http://localhost:5050/record/beans")
+      .get("http://localhost:5050/record/users")
       .then((response) => {
         console.log(response.data);
       })

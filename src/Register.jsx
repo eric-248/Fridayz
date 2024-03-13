@@ -10,7 +10,7 @@ export const Register = () => {
     //create useStates
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
-    const [name, setName] = useState('');
+    const [username, setUsername] = useState('');
 
     //function handle Submit
     const handleSubmit = (e) => {
@@ -28,14 +28,14 @@ export const Register = () => {
                 
                 <form className="registration-form" onSubmit={handleSubmit}>
 
-                {/* Name*/}
                 <input
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    name="name"
-                    id="name"
-                    placeholder="Full Name"
-                />
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        type="username"
+                        placeholder="username"
+                        id="username"
+                        name="username"
+                    />
 
                 {/*Email*/}
                 <input
