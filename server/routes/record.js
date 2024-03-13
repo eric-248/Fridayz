@@ -5,7 +5,7 @@ import db from "../db/connection.js";
 
 // This help convert the id from string to ObjectId for the _id.
 import { ObjectId } from "mongodb";
-
+import jwt from "jsonwebtoken";
 // router is an instance of the express router.
 // We use it to define our routes.
 // The router will be added as a middleware and will take control of requests starting with path /record.
@@ -304,7 +304,21 @@ router.post("/users/login", async (req, res) => {
   }
 
   if (user.password === req.body.password) {
-    res.json(user);
+    //res.json(user);
+    jwt.sign(
+      {
+        email: user.email,
+        _id: user._id,
+        username: user.username,
+        password: user.password,
+      },
+      process.env.JWT_SECRET,
+      {},
+      (err, token) => {
+        if (err) throw err;
+        res.cookie("token", token).json(user);
+      }
+    );
   } else {
     res.json({ error: "Incorrect password" });
   }
