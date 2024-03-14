@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#go to server directory
+cd server
+
+# Install required packages
+npm install mongodb express cors axios mongoose jsonwebtoken cookie-parser
+
+# Run the server with environment file
+node --env-file=config.env server
