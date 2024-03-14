@@ -1,22 +1,47 @@
 import React, {useState} from "react";
-import {Link} from 'react-router-dom';
-
+import {Link, useNavigate} from 'react-router-dom';
+import axios from "axios";
 //import css
 import "./Authentication.css"
 
 //define React functional componenet named 'Register'
 export const Register = () => {
+    const navigate = useNavigate();
 
-    //create useStates
-    const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
-    const [username, setUsername] = useState('');
+    const [data, setData] = useState({
+        currUsername: '',
+        currEmail: '',
+        currPassword: '',
+    })
 
     //function handle Submit
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email);
-    }
+        const {currUsername, currEmail, currPassword} = data;
+        try {
+            axios
+            .post("http://localhost:5050/record/users/register", {
+                email: currEmail, 
+                username: currUsername,  
+                password: currPassword,
+            })
+            .then((response) => {
+              console.log(response.data);
+              if (response.data.error) {
+                window.alert(response.data.error); // Display error message in a pop-up
+              }
+              else{
+                setData({});
+                window.alert("Registration success!");
+                navigate('/login');
+                }
+            })
+        }
+            catch(error){
+                console.log(error);
+            }
+        
+    };
 
     return (
 
@@ -29,8 +54,8 @@ export const Register = () => {
                 <form className="registration-form" onSubmit={handleSubmit}>
 
                 <input
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={data.username}
+                        onChange={(e) => setData({ ...data, currUsername: e.target.value })}
                         type="username"
                         placeholder="username"
                         id="username"
@@ -39,8 +64,8 @@ export const Register = () => {
 
                 {/*Email*/}
                 <input
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={data.email}
+                    onChange={(e) => setData({ ...data, currEmail: e.target.value })}
                     type="email"
                     placeholder="abc@gmail.com"
                     id="email"
@@ -49,8 +74,8 @@ export const Register = () => {
 
                 {/*Password*/}
                 <input
-                    value={pass}
-                    onChange={(e) => setPass(e.target.value)}
+                    value={data.password}
+                    onChange={(e) => setData({ ...data, currPassword: e.target.value })}
                     type="password"
                     placeholder="********"
                     id="password"

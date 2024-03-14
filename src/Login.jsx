@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import {Link, useParams, useNavigate} from 'react-router-dom';
 //import css
 import './Authentication.css';
+import axios from "axios";
 
 //define function Login
 export const Login = () => {
@@ -15,13 +16,40 @@ export const Login = () => {
     // - notice the the inital values are set to empty strings
     // */}
 
-    const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
+    // const [currEmail, setEmail] = useState('');
+    // const [currPass, setPass] = useState('');
+    const navigate = useNavigate();
+
+    const [data, setData] = useState({
+        currEmail: '',
+        currPassword: '',
+    })
 
     // Function to handle state submission 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email);
+        const {currEmail, currPassword} = data;
+        try {
+            axios
+            .post("http://localhost:5050/record/users/login", {
+                email: currEmail, 
+                password: currPassword,
+            }, { withCredentials: true })
+            .then((response) => {
+              console.log(response.data);
+              if (response.data.error) {
+                window.alert(response.data.error); // Display error message in a pop-up
+              }
+              else{
+                setData({});
+                window.alert("Login success!");
+                navigate('/');
+                }
+            })
+        }
+            catch(error){
+                console.log(error);
+            }
     }
 
     return (
@@ -36,8 +64,8 @@ export const Login = () => {
 
                     {/*Email*/}
                     <input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={data.currEmail}
+                        onChange={(e) => setData({ ...data, currEmail: e.target.value })}
                         type="email"
                         placeholder="abc@gmail.com"
                         id="email"
@@ -46,8 +74,8 @@ export const Login = () => {
 
                     {/*Password*/}
                     <input
-                        value={pass}
-                        onChange={(e) => setPass(e.target.value)}
+                        value={data.currPassword}
+                        onChange={(e) => setData({ ...data, currPassword: e.target.value })}
                         type="password"
                         placeholder="*********"
                         id="password"

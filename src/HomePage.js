@@ -16,11 +16,16 @@ const HomePage = () => {
   const handlePostBeans = async () => {
     setShowPosts(true); // Update state to show posts
     axios
-      .get("http://localhost:5050/record/users")
+      .post("http://localhost:5050/record/users/register", {
+        email: "user1234@gmail.com",
+        username: "user1234",
+        password: "password1234",
+      })
       .then((response) => {
         console.log(response.data);
       })
       .catch(console.error);
+
     // e.preventDefault();
     // let result = await fetch("http://localhost:5000/register", {
     //   method: "post",

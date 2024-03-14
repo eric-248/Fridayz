@@ -14,4 +14,5 @@ const BeanObject = mongoose.model(
 );
 
 export default BeanObject;
+
 //module.exports = BeanObject;

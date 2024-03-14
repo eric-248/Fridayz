@@ -5,7 +5,7 @@ import db from "../db/connection.js";
 
 // This help convert the id from string to ObjectId for the _id.
 import { ObjectId } from "mongodb";
-
+import jwt from "jsonwebtoken";
 // router is an instance of the express router.
 // We use it to define our routes.
 // The router will be added as a middleware and will take control of requests starting with path /record.
@@ -121,28 +121,6 @@ router.post("/beans/new/:_id", async (req, res) => {
   }
 });
 
-//create a user
-router.post("/users/new", async (req, res) => {
-  try {
-    const dupUser = await UserObject.findOne({ username: req.body.username });
-    if (dupUser) {
-      res.json({ error: "Duplicate username exists." });
-      return;
-    }
-    const user = new UserObject({
-      username: req.body.username,
-      friends: [],
-      email: req.body.email,
-      password: req.body.password,
-    });
-
-    await user.save();
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error adding bean");
-  }
-});
-
 function getNextFridayDate() {
   const today = new Date();
   const dayOfWeek = today.getDay();
@@ -160,7 +138,7 @@ router.post("/posts/new", async (req, res) => {
       toBePosted: getNextFridayDate(),
       username: req.body.username,
     });
-    const result = await beanObject.save();
+    const result = await postObject.save();
     res.status(201).send({ _id: result._id });
   } catch (err) {
     console.error(err);
@@ -268,5 +246,98 @@ router.patch("user/bio/:_id", async (req, res) => {
 //     res.status(500).send("Error deleting record");
 //   }
 // });
+
+//create a user to register
+router.post("/users/register", async (req, res) => {
+  try {
+    const collection = db.collection("users");
+    const dupUser = await collection.findOne({ username: req.body.username });
+    if (dupUser) {
+      res.json({ error: "Duplicate username exists." });
+      return;
+    }
+    const dupEmailUser = await collection.findOne({ email: req.body.email });
+    if (dupEmailUser) {
+      res.json({ error: "Duplicate email exists." });
+      return;
+    }
+
+    const addedUser = await collection.insertOne({
+      username: req.body.username, // Use the username from route parameters
+      friends: [],
+      email: req.body.email, // Access email from request body
+      password: req.body.password, // Access password from request body
+      bio: "",
+    });
+
+    const user = {
+      _id: addedUser.insertedId, // Use insertedId to get the ID of the inserted document
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      friends: [],
+      bio: "",
+    };
+
+    res.json({
+      _id: addedUser.insertedId, // Use insertedId to get the ID of the inserted document
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      friends: [],
+      bio: "",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error adding user");
+  }
+});
+
+//login feature
+router.post("/users/login", async (req, res) => {
+  const { email, password } = req.body;
+  const collection = db.collection("users");
+  const user = await collection.findOne({ email });
+  if (!user) {
+    res.json({ error: "Account with this email does not exist" });
+    return;
+  }
+
+  if (user.password === req.body.password) {
+    //res.json(user);
+    //res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Max-Age", "1800");
+    res.setHeader("Access-Control-Allow-Headers", "content-type");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "PUT, POST, GET, DELETE, PATCH, OPTIONS"
+    );
+    // jwt.sign(
+    //   {
+    //     email: user.email,
+    //     _id: user._id,
+    //     username: user.username,
+    //     password: user.password,
+    //   },
+    //   process.env.JWT_SECRET,
+    //   {},
+    //   (err, token) => {
+    //     if (err) throw err;
+    //     res
+    //       .cookie("token", token, { sameSite: "none", secure: true })
+    //       .json(user);
+    //   }
+    // );
+    res.cookie("_id", user._id, { maxAge: 900000, httpOnly: true });
+    res.cookie("email", user.email, { maxAge: 900000, httpOnly: true });
+    res.cookie("username", user.username, { maxAge: 900000, httpOnly: true });
+    res.cookie("password", user.password, { maxAge: 900000, httpOnly: true });
+
+    res.send("updated");
+  } else {
+    res.json({ error: "Incorrect password" });
+  }
+});
 
 export default router;
