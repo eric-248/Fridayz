@@ -34,7 +34,7 @@ export const Login = () => {
             .post("http://localhost:5050/record/users/login", {
                 email: currEmail, 
                 password: currPassword,
-            })
+            }, { withCredentials: true })
             .then((response) => {
               console.log(response.data);
               if (response.data.error) {

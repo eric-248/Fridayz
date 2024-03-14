@@ -305,20 +305,36 @@ router.post("/users/login", async (req, res) => {
 
   if (user.password === req.body.password) {
     //res.json(user);
-    jwt.sign(
-      {
-        email: user.email,
-        _id: user._id,
-        username: user.username,
-        password: user.password,
-      },
-      process.env.JWT_SECRET,
-      {},
-      (err, token) => {
-        if (err) throw err;
-        res.cookie("token", token).json(user);
-      }
+    //res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Max-Age", "1800");
+    res.setHeader("Access-Control-Allow-Headers", "content-type");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "PUT, POST, GET, DELETE, PATCH, OPTIONS"
     );
+    // jwt.sign(
+    //   {
+    //     email: user.email,
+    //     _id: user._id,
+    //     username: user.username,
+    //     password: user.password,
+    //   },
+    //   process.env.JWT_SECRET,
+    //   {},
+    //   (err, token) => {
+    //     if (err) throw err;
+    //     res
+    //       .cookie("token", token, { sameSite: "none", secure: true })
+    //       .json(user);
+    //   }
+    // );
+    res.cookie("_id", user._id, { maxAge: 900000, httpOnly: true });
+    res.cookie("email", user.email, { maxAge: 900000, httpOnly: true });
+    res.cookie("username", user.username, { maxAge: 900000, httpOnly: true });
+    res.cookie("password", user.password, { maxAge: 900000, httpOnly: true });
+
+    res.send("updated");
   } else {
     res.json({ error: "Incorrect password" });
   }
