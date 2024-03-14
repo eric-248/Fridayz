@@ -230,6 +230,15 @@ code {
   display: flex; /* Utilizes flexbox for centering, if needed */
 }
 
+.selected-user-box {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adding a slight shadow for depth */
+  padding: 0px;
+  width: 400px; /* Adjust this to your preference */
+  margin: 0 auto; /* Center the container */
+}
+
 
 .friends-list-container {
   background-color: white;

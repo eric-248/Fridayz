@@ -51,6 +51,7 @@ const SearchBar = ({ selectedUser, setSelectedUser }) => {
 
   const handleUserClick = (username) => {
     setSelectedUser(username); // Set the selected username
+    setVisible(false);
   };
 
 
@@ -87,7 +88,11 @@ const SearchBar = ({ selectedUser, setSelectedUser }) => {
         </section>
         <hr />
         {/* Display the selected username */}
-        {selectedUser && <p>Selected User: {selectedUser}</p>}
+        {selectedUser && (
+          <div className="selected-user-box">
+            <p>Selected User: {selectedUser}</p>
+          </div>
+        )}
       </div>
     </div>
   );
