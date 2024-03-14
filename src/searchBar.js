@@ -8,7 +8,7 @@ const SearchBar = ({ selectedUser, setSelectedUser }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [visible, setVisible] = useState(false);
-
+  const dropdownRef = useState(null);
   function getAllUsernames() {
     if (user) {
       axios
@@ -27,10 +27,35 @@ const SearchBar = ({ selectedUser, setSelectedUser }) => {
     getAllUsernames();
   }, []);
 
+  useEffect(() => {
+    // Function to close the dropdown when clicking outside of it
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setVisible(false);
+      }
+    };
+
+    // Add event listener when the dropdown is visible
+    if (visible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      // Remove event listener when the dropdown is not visible
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Cleanup the event listener when component unmounts
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [visible]);
+
   const handleUserClick = (username) => {
     setSelectedUser(username); // Set the selected username
   };
 
+
+
+  
   return (
     <div className="content">
       <div className="container">
@@ -46,16 +71,19 @@ const SearchBar = ({ selectedUser, setSelectedUser }) => {
             // onBlur={() => setVisible(false)}
             placeholder="Search..."
           />
-          <ul style={{ listStyleType: "none", padding: 0 }}>
-            {visible &&
-              allUsers
-                .filter((li) => li.toLowerCase().includes(search.toLowerCase()))
-                .map((item, key) => (
-                  <li key={key} onClick={() => handleUserClick(item)}>
-                    {item}
-                  </li>
-                ))}
-          </ul>
+         {visible && (
+            <div ref={dropdownRef} className="dropdown-box">
+              <ul className="dropdown-list">
+                {allUsers
+                  .filter((li) => li.toLowerCase().includes(search.toLowerCase()))
+                  .map((item, key) => (
+                    <li key={key} onClick={() => handleUserClick(item)}>
+                      {item}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          )}
         </section>
         <hr />
         {/* Display the selected username */}

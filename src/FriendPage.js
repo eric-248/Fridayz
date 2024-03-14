@@ -65,6 +65,9 @@ const FriendPage = () => {
     }
   };
 
+
+  
+
   return (
     <div className="friends-page">
       <SearchBar
@@ -82,11 +85,13 @@ const FriendPage = () => {
           onAccept={() => acceptFriend(friend.id)}
         />
       ))} */}
-      <ul style={{ listStyleType: "none", padding: 0 }}>
-        {friends.map((friend, index) => (
-          <li key={index}>{friend}</li>
-        ))}
-      </ul>
+       <div className="friends-list-container">
+        <ul className="friends-list">
+          {friends.map((friend, index) => (
+            <li key={index}>{friend}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
