@@ -20,6 +20,7 @@ const Navbar = () => {
     document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie =
       "password=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    localStorage.clear();
     window.location.reload();
     // Redirect to the login page
     navigate("/login");

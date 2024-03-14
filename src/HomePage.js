@@ -32,8 +32,9 @@ const HomePage = () => {
 
   return (
     <div>
+      {!user && <h1>Please log in or register!</h1>}
       {!!user && <h1>Hi {user.username}!</h1>}
-      <Beans addBean={addBean} />
+      {!!user && <Beans addBean={addBean} />}
       <div style={{ display: "flex", flexDirection: "row" }}>
         {showPosts && (
           <div style={{ marginRight: "50px", flex: 1 }}>

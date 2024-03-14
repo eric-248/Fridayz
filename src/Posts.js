@@ -129,31 +129,21 @@ const Posts = () => {
     setBeansInFilteredPosts(updatedBeansInFilteredPosts);
   };
 
-  // useEffect(() => {
-  //   fetchBeans();
-  //   getFriends();
-  //   fetchPosts();
-  //   setDateToPost(getPreviousFriday());
-  //   const filtered = filterPostsByFriendsAndDate();
-  //   setFilteredPosts(filtered);
-  //   console.log("filter", filteredPosts);
-  //   getBeansForPosts();
-  //   //console.log("here");
-  //   // console.log(posts[0].beans);
-  //   console.log("bean", beansInFilteredPosts);
-  // }, []);
-
   useEffect(() => {
-    fetchBeans();
-    getFriends();
-    fetchPosts();
-    setDateToPost(getPreviousFriday());
-  }, [user]); // Include empty dependency array to run once on mount
+    const fetchData = async () => {
+      await fetchBeans();
+      await getFriends();
+      await fetchPosts();
+      setDateToPost(getPreviousFriday());
+    };
+
+    fetchData();
+  }, [user]);
 
   useEffect(() => {
     const filtered = filterPostsByFriendsAndDate();
     setFilteredPosts(filtered);
-  }, [friends, posts, dateToPost]); // Include all dependencies affecting filteredPosts
+  }, [friends, posts, dateToPost]);
 
   useEffect(() => {
     getBeansForPosts();

@@ -3,45 +3,137 @@ import paperClipIcon from "./Pictures/paper-clip.svg"; // Make sure this path is
 import { UserContext } from "./context/userContext";
 import { useContext, useEffect } from "react";
 import axios from "axios";
+import { areDatesEqual } from "./genFunctions";
 
 const Beans = ({ addBean }) => {
   const { user } = useContext(UserContext);
 
-  const [beans, setBeans] = useState([]);
+  const [allBeans, setAllBeans] = useState([]);
+  const [myBeans, setBeans] = useState([]);
   const [textInput, setTextInput] = useState("");
   const [latestBeanId, setLatestBeanId] = useState("");
+  const [nextFriday, setNextFriday] = useState(getNextFridayDate());
 
   const fileInputRef = useRef(null);
 
-  // useEffect(() => {
-  //   async function getRecords() {
-  //     const response = await fetch(`http://localhost:5050/record/`);
-  //     if (!response.ok) {
-  //       const message = `An error occurred: ${response.statusText}`;
-  //       console.error(message);
-  //       return;
-  //     }
-  //     const records = await response.json();
-  //     setRecords(records);
-  //   }
-  //   getRecords();
-  //   return;
-  // }, [records.length]);
+  function getNextFridayDate() {
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const daysUntilFriday = 5 - dayOfWeek; // Friday is the 5th day of the week (0-indexed)
+    const nextFriday = new Date(today);
+    nextFriday.setDate(today.getDate() + daysUntilFriday);
+    nextFriday.setHours(21, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+    return nextFriday;
+  }
+
+  const fetchBeans = async () => {
+    try {
+      const response = await axios.get("http://localhost:5050/record/beans");
+      setAllBeans(response.data);
+      localStorage.setItem("allBeans", JSON.stringify(response.data)); // Store fetched data in local storage
+      return response.data;
+    } catch (error) {
+      console.error("Error retrieving beans:", error);
+      throw error;
+    }
+  };
+
+  const getData = async () => {
+    // if (user) {
+    try {
+      //console.log(allBeans);
+      const response = await axios.get("http://localhost:5050/record/posts");
+      const filteredPosts = response.data.filter((post) => {
+        // Check if the post's username matches the user's username
+        const isUserPost = post.username === user.username;
+        const postDate = new Date(post.toBePosted);
+        const isNextFriday = areDatesEqual(postDate, nextFriday);
+        return isUserPost && isNextFriday;
+      });
+      const updatedBeansInFilteredPosts = filteredPosts.map((post) => {
+        const beansForPost = post.beans.map((beanId) => {
+          // Find the corresponding bean using the beanId
+          return allBeans.find((bean) => bean._id === beanId);
+        });
+        return beansForPost;
+        // username: post.username,
+        // comments: post.comments,
+        // likes: post.likes,
+        // toBePosted: post.toBePosted,
+        //beans:
+      });
+      const flattenedBeans = updatedBeansInFilteredPosts.flat();
+      //console.log(flattenedBeans);
+      localStorage.setItem("myBeans", JSON.stringify(flattenedBeans)); // Store fetched data in local storage
+      // Set each individual bean to an element in the myBeans array
+      setBeans(flattenedBeans);
+    } catch (error) {
+      console.error("Error retrieving posts:", error);
+      throw error;
+    }
+    // }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchBeans();
+    };
+
+    const check = (storedAllBeans, storedMyBeans) => {
+      let myBeans = [];
+      if (storedMyBeans) {
+        // Parse the stored data from localStorage
+        myBeans = JSON.parse(storedMyBeans);
+
+        // Filter out any null values
+        myBeans = myBeans.filter((bean) => bean !== null);
+
+        // Check if the filtered array has the same length as the original array
+        if (
+          storedAllBeans &&
+          myBeans.length === JSON.parse(storedMyBeans).length
+        ) {
+          return true; // No null values
+        } else {
+          return false; // Null values present
+        }
+      } else {
+        return false; // localStorage item not found, consider it as no null values
+      }
+    };
+    const storedAllBeans = localStorage.getItem("allBeans");
+    const storedMyBeans = localStorage.getItem("myBeans");
+
+    if (check(storedAllBeans, storedMyBeans)) {
+      setAllBeans(JSON.parse(storedAllBeans));
+      setBeans(JSON.parse(storedMyBeans));
+    } else {
+      fetchData();
+    }
+    //console.log(myBeans);
+  }, [user]); // Include empty dependency array to run once on mount
+
+  useEffect(() => {
+    // Call getData only when allBeans has been updated
+    if (allBeans.length > 0) {
+      getData();
+    }
+  }, [allBeans]);
 
   const handleAddBean = async () => {
     if (textInput.trim() !== "") {
-      const time = new Date(); // Get the current time
-      setBeans([
-        ...beans,
-        { type: "text", content: textInput, date: time.toLocaleString() },
-      ]);
-      setTextInput("");
-      const newBean = {
-        type: "text",
-        content: textInput,
-        date: time.toLocaleString(),
-      };
-      addBean(newBean); // Use addBean prop to update state in HomePage
+      // const time = new Date(); // Get the current time
+      // setBeans([
+      //   ...myBeans,
+      //   { type: "text", content: textInput, date: time.toLocaleString() },
+      // ]);
+      // setTextInput("");
+      // const newBean = {
+      //   type: "text",
+      //   content: textInput,
+      //   date: time.toLocaleString(),
+      // };
+      // addBean(newBean); // Use addBean prop to update state in HomePage
       setTextInput("");
 
       // try {
@@ -74,12 +166,12 @@ const Beans = ({ addBean }) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
-      reader.onload = (event) => {
-        setBeans([...beans, { type: "image", content: event.target.result }]);
-        const newBean = { type: "image", content: event.target.result };
-        addBean(newBean); // Use addBean prop to update state in HomePage
-      };
-      reader.readAsDataURL(file);
+      // reader.onload = (event) => {
+      //   setBeans([...myBeans, { type: "image", content: event.target.result }]);
+      //   const newBean = { type: "image", content: event.target.result };
+      //   addBean(newBean); // Use addBean prop to update state in HomePage
+      // };
+      // reader.readAsDataURL(file);
     }
   };
 
@@ -95,25 +187,27 @@ const Beans = ({ addBean }) => {
     <div className="home">
       <div className="square-wrapper">
         <div className="square">
-          {beans.map((bean, index) => (
-            <div key={index}>
-              {bean.type === "text" ? (
-                <>
-                  {bean.date}
-                  <br />
-                  {bean.content}
-                </>
-              ) : (
-                <img
-                  src={bean.content}
-                  alt="Uploaded"
-                  style={{ maxWidth: "100%", maxHeight: "800px" }}
-                />
-              )}
-              <br /> {/* Add a newline after each bean */}
-              <br />
-            </div>
-          ))}
+          {myBeans &&
+            myBeans.map((bean, index) => (
+              <div key={index}>
+                {bean && bean._id ? (
+                  <>
+                    {bean.time}
+                    <br />
+                    {bean.thought}
+                  </>
+                ) : (
+                  <img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAQSURBVBhXY/j//z8ABf4C/qc1gYQAAAAAElFTkSuQmCC
+                    "
+                    alt="Uploaded"
+                    style={{ maxWidth: "100%", maxHeight: "800px" }}
+                  />
+                )}
+                <br /> {/* Add a newline after each bean */}
+                <br />
+              </div>
+            ))}
         </div>
         <div
           className="addToBean-container"
