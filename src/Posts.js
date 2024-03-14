@@ -2,6 +2,8 @@ import React from "react";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./context/userContext";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import OtherProfile from "./OtherProfile";
 
 const Posts = () => {
   const { user } = useContext(UserContext);
@@ -173,7 +175,10 @@ const Posts = () => {
           }}
         >
           <div style={{ marginRight: "20px" }}>
-            <h2>{post.username}</h2>
+            {/* <h2>{post.username}</h2> */}
+            <h2>
+              <Link to={`/profile/${post.username}`}>{post.username}</Link>
+            </h2>
             <p>To be posted: {post.toBePosted}</p>
             <p>Likes: {post.likes}</p>
           </div>

@@ -7,6 +7,7 @@ import ProfilePage from "./ProfilePage";
 import Comments from "./Comments";
 import Posts from "./Posts";
 import Beans from "./Beans";
+import OtherProfile from "./OtherProfile";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 //import Login and Register Page
@@ -29,6 +30,7 @@ function App() {
               {/* <Route path="/Posts" element={<Posts />}></Route> */}
               <Route path="/Comments" element={<Comments />}></Route>
               <Route path="/Beans" element={<Beans />}></Route>
+              <Route path="/profile/:username" element={<OtherProfile />} />
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
           </div>
