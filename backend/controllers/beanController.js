@@ -1,5 +1,5 @@
 // controllers/beanController.js
-const Bean = require('../models/bean');
+const Bean = require("../models/bean");
 
 const BeanController = {
   createBean: async (req, res) => {
@@ -9,7 +9,7 @@ const BeanController = {
       // Create a new bean
       const newBean = new Bean({
         thought,
-        time
+        time,
       });
       await newBean.save();
 
@@ -36,7 +36,7 @@ const BeanController = {
       // Find the bean by ID
       const bean = await Bean.findById(beanId);
       if (!bean) {
-        return res.status(404).json({ message: 'Bean not found' });
+        return res.status(404).json({ message: "Bean not found" });
       }
 
       res.json(bean);
@@ -52,9 +52,13 @@ const BeanController = {
       const { thought, time } = req.body;
 
       // Find the bean by ID and update its properties
-      const updatedBean = await Bean.findByIdAndUpdate(beanId, { thought, time }, { new: true });
+      const updatedBean = await Bean.findByIdAndUpdate(
+        beanId,
+        { thought, time },
+        { new: true }
+      );
       if (!updatedBean) {
-        return res.status(404).json({ message: 'Bean not found' });
+        return res.status(404).json({ message: "Bean not found" });
       }
 
       res.json(updatedBean);
@@ -71,14 +75,14 @@ const BeanController = {
       // Find the bean by ID and delete it
       const deletedBean = await Bean.findByIdAndDelete(beanId);
       if (!deletedBean) {
-        return res.status(404).json({ message: 'Bean not found' });
+        return res.status(404).json({ message: "Bean not found" });
       }
 
-      res.json({ message: 'Bean deleted successfully' });
+      res.json({ message: "Bean deleted successfully" });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-  }
+  },
 };
 
 module.exports = BeanController;

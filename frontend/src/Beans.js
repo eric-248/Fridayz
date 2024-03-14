@@ -34,22 +34,24 @@ const Beans = () => {
   };
 
   const handleAddBean = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        "http://localhost:5050/api/beans",
-        { thought: textInput, time: new Date() }, // Add the current time as 'time' field
-        {
-          headers: {
-            Authorization: token, // Fixed authorization header
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      setTextInput("");
-      fetchBeans(); // Refresh beans after adding
-    } catch (error) {
-      console.error("Error adding bean:", error);
+    if (textInput !== "") {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.post(
+          "http://localhost:5050/api/beans",
+          { thought: textInput, time: new Date() }, // Add the current time as 'time' field
+          {
+            headers: {
+              Authorization: token, // Fixed authorization header
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setTextInput("");
+        fetchBeans(); // Refresh beans after adding
+      } catch (error) {
+        console.error("Error adding bean:", error);
+      }
     }
   };
 
@@ -60,7 +62,13 @@ const Beans = () => {
           {beans.map((bean, index) => (
             <div key={index}>
               {/* {bean.type === "text" ? ( */}
-                <div>{bean.thought}</div>
+              <div>
+                {bean.time}
+                <br />
+                {bean.thought}
+                <br />
+                <br />
+              </div>
               {/* ) : (
                 <img
                   src={bean.content}

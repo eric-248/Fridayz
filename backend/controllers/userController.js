@@ -1,7 +1,7 @@
 // controllers/userController.js
-const User = require('../models/user');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const User = require("../models/user");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const UserController = {
   register: async (req, res) => {
@@ -11,7 +11,7 @@ const UserController = {
       // Check if user already exists
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        return res.status(400).json({ message: 'User already exists' });
+        return res.status(400).json({ message: "User already exists" });
       }
 
       // Hash the password
@@ -21,11 +21,11 @@ const UserController = {
       const newUser = new User({
         username,
         email,
-        password: hashedPassword
+        password: hashedPassword,
       });
       await newUser.save();
 
-      res.status(201).json({ message: 'User registered successfully' });
+      res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -38,13 +38,13 @@ const UserController = {
       // Find the user by email
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(401).json({ message: 'Invalid email or password' });
+        return res.status(401).json({ message: "Invalid email or password" });
       }
 
       // Check if the password is correct
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (!passwordMatch) {
-        return res.status(401).json({ message: 'Invalid email or password' });
+        return res.status(401).json({ message: "Invalid email or password" });
       }
 
       // Generate JWT token
@@ -65,7 +65,7 @@ const UserController = {
       // Find the user by ID
       const user = await User.findById(userId);
       if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(404).json({ message: "User not found" });
       }
 
       res.json(user);
@@ -82,9 +82,13 @@ const UserController = {
       const { username, email, bio } = req.body;
 
       // Find the user by ID and update their profile
-      const updatedUser = await User.findByIdAndUpdate(userId, { username, email, bio }, { new: true });
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { username, email, bio },
+        { new: true }
+      );
       if (!updatedUser) {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(404).json({ message: "User not found" });
       }
 
       res.json(updatedUser);
@@ -103,13 +107,13 @@ const UserController = {
       // Find the current user and add the friend to their friends list
       const user = await User.findById(userId);
       if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(404).json({ message: "User not found" });
       }
 
       user.friends.push(friendId);
       await user.save();
 
-      res.json({ message: 'Friend added successfully' });
+      res.json({ message: "Friend added successfully" });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -125,17 +129,17 @@ const UserController = {
       // Find the current user and remove the friend from their friends list
       const user = await User.findById(userId);
       if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(404).json({ message: "User not found" });
       }
 
-      user.friends = user.friends.filter(id => id !== friendId);
+      user.friends = user.friends.filter((id) => id !== friendId);
       await user.save();
 
-      res.json({ message: 'Friend removed successfully' });
+      res.json({ message: "Friend removed successfully" });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-  }
+  },
 };
 
 module.exports = UserController;

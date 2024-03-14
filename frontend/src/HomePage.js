@@ -18,11 +18,14 @@ const HomePage = () => {
   const fetchUserProfile = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5050/api/users/profile", {
-        headers: {
-          Authorization: token, // Include JWT token in the Authorization header
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:5050/api/users/profile",
+        {
+          headers: {
+            Authorization: token, // Include JWT token in the Authorization header
+          },
+        }
+      );
       setUser(response.data); // Update user state with profile data
     } catch (error) {
       console.error("Error fetching user profile:", error);
@@ -76,6 +79,7 @@ const HomePage = () => {
   return (
     <div>
       {!!user && <h1>Hi {user.username}!</h1>}
+      {!user && <h1>Please log in or register!</h1>}
       <Beans />
       <div>
         <button onClick={handlePostBeans}>It's Friday!</button>
