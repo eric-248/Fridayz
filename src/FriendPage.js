@@ -1,54 +1,78 @@
-import React, { useState } from 'react';
-import Friend from './Friend';
-import './index.css';
+import React, { useState } from "react";
+import Friend from "./Friend";
+import "./index.css";
+import { useContext, useEffect } from "react";
+import { UserContext } from "./context/userContext";
+import axios from "axios";
+import SearchBar from "./searchBar";
 
 const FriendPage = () => {
-  const [friends, setFriends] = useState([
-    { id: 1, name: 'John Doe', pictureUrl: 'https://placekitten.com/200/200', status: 'accepted' },
-    { id: 2, name: 'Jane Doe', pictureUrl: 'https://placekitten.com/200/200', status: 'pending' },
-    // Initial friends data
-  ]);
+  const { user } = useContext(UserContext);
+  const [friends, setFriends] = useState([]);
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const removeFriend = (id) => {
-    setFriends(friends.filter(friend => friend.id !== id));
+  const [selectedUser, setSelectedUser] = useState("");
+
+  function getFriends() {
+    if (user) {
+      axios
+        .get("http://localhost:5050/record/user", {
+          params: {
+            username: user.username,
+          },
+        })
+        .then((response) => {
+          // Assuming the bio is returned in the response data
+          //console.log(response.data);
+          setFriends(response.data.friends);
+          //setFriends(response.data.friends);
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error("Error fetching friends:", error);
+        });
+    }
+  }
+
+  useEffect(() => {
+    //console.log(user);
+    getFriends();
+  }, []);
+
+  const addFriend = async (name) => {
+    // const newFriend = {
+    //   id: Math.max(...friends.map((friend) => friend.id)) + 1,
+    //   name,
+    //   pictureUrl,
+    //   status: "pending",
+    // };
+    // setFriends([...friends, newFriend]);
+    if (name !== "") {
+      try {
+        const response = await axios.put(
+          "http://localhost:5050/record/user/friends/new",
+          {
+            _id: user._id,
+            friendUsername: selectedUser,
+          }
+        );
+        return response.data;
+      } catch (error) {
+        console.error("Error adding user to friends:", error);
+        throw error; // Propagate the error to the caller
+      }
+    }
   };
-
-  const addFriend = (name, pictureUrl) => {
-    const newFriend = {
-      id: Math.max(...friends.map(friend => friend.id)) + 1,
-      name,
-      pictureUrl,
-      status: 'pending',
-    };
-    setFriends([...friends, newFriend]);
-  };
-
-  const acceptFriend = (id) => {
-    setFriends(friends.map(friend => 
-      friend.id === id ? { ...friend, status: 'accepted' } : friend
-    ));
-  };
-
-  const handleSearchInputChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const filteredFriends = friends.filter(friend =>
-    friend.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div className="friends-page">
-      <input 
-        type="text" 
-        placeholder="Search friends..." 
-        value={searchQuery} 
-        onChange={handleSearchInputChange} 
+      <SearchBar
+        selectedUser={selectedUser}
+        setSelectedUser={setSelectedUser}
       />
-      <button onClick={() => addFriend('New Friend', 'https://placekitten.com/g/200/300')}>Add Friend</button>
-      {filteredFriends.map(friend => (
+      <button onClick={() => addFriend(selectedUser)}>Add Friend</button>
+      {/* {filteredFriends.map((friend) => (
         <Friend
           key={friend.id}
           name={friend.name}
@@ -57,7 +81,12 @@ const FriendPage = () => {
           status={friend.status}
           onAccept={() => acceptFriend(friend.id)}
         />
-      ))}
+      ))} */}
+      <ul style={{ listStyleType: "none", padding: 0 }}>
+        {friends.map((friend, index) => (
+          <li key={index}>{friend}</li>
+        ))}
+      </ul>
     </div>
   );
 };

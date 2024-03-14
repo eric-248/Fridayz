@@ -1,9 +1,15 @@
 import React, { useState, useRef } from "react";
 import paperClipIcon from "./Pictures/paper-clip.svg"; // Make sure this path is correct
+import { UserContext } from "./context/userContext";
+import { useContext, useEffect } from "react";
+import axios from "axios";
 
 const Beans = ({ addBean }) => {
+  const { user } = useContext(UserContext);
+
   const [beans, setBeans] = useState([]);
   const [textInput, setTextInput] = useState("");
+  const [latestBeanId, setLatestBeanId] = useState("");
 
   const fileInputRef = useRef(null);
 
@@ -22,13 +28,45 @@ const Beans = ({ addBean }) => {
   //   return;
   // }, [records.length]);
 
-  const handleAddBean = () => {
+  const handleAddBean = async () => {
     if (textInput.trim() !== "") {
-      setBeans([...beans, { type: "text", content: textInput }]);
+      const time = new Date(); // Get the current time
+      setBeans([
+        ...beans,
+        { type: "text", content: textInput, date: time.toLocaleString() },
+      ]);
       setTextInput("");
-      const newBean = { type: "text", content: textInput };
+      const newBean = {
+        type: "text",
+        content: textInput,
+        date: time.toLocaleString(),
+      };
       addBean(newBean); // Use addBean prop to update state in HomePage
       setTextInput("");
+
+      // try {
+      //   const response = await axios.post("http://localhost:5050/record/beans/new", {
+      //     thought: textInput,
+      //     _id: user._id, // Assuming postId is available in the calling scope
+      //   });
+      //   setLatestBeanId(response.data._id);
+      //   return response.data._id; // Return the created bean's ID
+      // } catch (error) {
+      //   console.error("Error adding bean:", error);
+      //   throw error; // Throw the error for handling by the caller
+      // }
+
+      // axios
+      //   .put("http://localhost:5050/record/post/addBean", {
+      //     username: user.username, // Replace 'example_username' with the actual username
+      //     beanId: latestBeanId, // Replace 'example_beanId' with the actual beanId
+      //   })
+      //   .then((response) => {
+      //     console.log(response.data);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error adding bean to post:", error);
+      //   });
     }
   };
 
@@ -57,18 +95,25 @@ const Beans = ({ addBean }) => {
     <div className="home">
       <div className="square-wrapper">
         <div className="square">
-          {beans.map((bean, index) =>
-            bean.type === "text" ? (
-              <div key={index}>{bean.content}</div>
-            ) : (
-              <img
-                key={index}
-                src={bean.content}
-                alt="Uploaded"
-                style={{ maxWidth: "100%", maxHeight: "800px" }}
-              />
-            )
-          )}
+          {beans.map((bean, index) => (
+            <div key={index}>
+              {bean.type === "text" ? (
+                <>
+                  {bean.date}
+                  <br />
+                  {bean.content}
+                </>
+              ) : (
+                <img
+                  src={bean.content}
+                  alt="Uploaded"
+                  style={{ maxWidth: "100%", maxHeight: "800px" }}
+                />
+              )}
+              <br /> {/* Add a newline after each bean */}
+              <br />
+            </div>
+          ))}
         </div>
         <div
           className="addToBean-container"

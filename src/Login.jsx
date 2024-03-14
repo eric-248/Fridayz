@@ -44,6 +44,7 @@ export const Login = () => {
                 setData({});
                 window.alert("Login success!");
                 navigate('/');
+                window.location.reload();
                 }
             })
         }

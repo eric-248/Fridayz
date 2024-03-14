@@ -60,9 +60,9 @@ router.get("/beans", async (req, res) => {
 });
 
 //get friends of a user
-router.get("/user/friends/:username", async (req, res) => {
+router.get("/user/friends", async (req, res) => {
   try {
-    const user = await UserObject.findOne(req.params.username);
+    const user = await UserObject.findOne(req.body.username);
     const friends = await User.find(user.friends);
     res.status(200).json(friends);
   } catch (error) {
@@ -72,9 +72,12 @@ router.get("/user/friends/:username", async (req, res) => {
 });
 
 //get user by username
-router.get("/user/:username", async (req, res) => {
+router.get("/user", async (req, res) => {
+  const username = req.query.username;
   const collection = await db.collection("users");
-  const user = await collection.findOne(req.params.username);
+  const user = await collection.findOne({ username: username });
+  // console.log(username);
+  // console.log(user);
   res.json(user);
 });
 
@@ -101,7 +104,7 @@ router.get("/beans/:_id", async (req, res) => {
 // });
 
 //add a bean and return the object id so it can be appended to post
-router.post("/beans/new/:_id", async (req, res) => {
+router.post("/beans/new", async (req, res) => {
   try {
     const beanObject = new BeanObject({
       thought: req.body.thought, // Assuming req.body contains the 'thought' field
@@ -110,7 +113,7 @@ router.post("/beans/new/:_id", async (req, res) => {
     const result = await beanObject.save();
 
     //add objectid to post
-    const post = await PostObject.findById(req.params._id);
+    const post = await PostObject.findById(req.body._id);
     post.thoughts.push({ _id: result._id });
     post.save();
 
@@ -146,6 +149,36 @@ router.post("/posts/new", async (req, res) => {
   }
 });
 
+//add a bean to the post
+router.put("/post/addBean", async (req, res) => {
+  const { username } = req.body.username; // Get the postId from the request params
+  const { beanId } = req.body.beanId; // Get the beanId from the request body
+
+  try {
+    // Find the post by its ID
+    const posts = await Post.find({ username: username });
+    // If the post is not found, return a 404 status
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+    const matchingPost = posts.find(
+      (post) => post.toBePosted === getNextFridayDate()
+    );
+    if (matchingPost) {
+      matchingPost.beans.push(beanId);
+      await matchingPost.save();
+      console.log("Matching post:", matchingPost);
+      res.status(200).json({ message: "Bean added to post", post: post });
+    } else {
+      console.log("No post found for the desired date");
+    }
+  } catch (error) {
+    console.error("Error adding bean to post:", error);
+    // Return a 500 status with an error message
+    res.status(500).json({ error: "Error adding bean to post" });
+  }
+});
+
 //add a like to the post
 router.put("/posts/like/:_id", async (req, res) => {
   const post = await PostObject.findById(req.params._id);
@@ -165,9 +198,9 @@ router.put("/posts/comment/:_id", async (req, res) => {
 });
 
 //add a friend
-router.put("/user/friends/new/:_id/:friendUsername", async (req, res) => {
-  const user = await UserObject.findById(req.params._id);
-  post.friends.push(req.params.friendUsername);
+router.put("/user/friends/new", async (req, res) => {
+  const user = await UserObject.findById(req.body._id);
+  post.friends.push(req.body.friendUsername);
   post.save();
 
   res.json(post);
@@ -186,11 +219,13 @@ router.put("/user/friends/delete/:_id/:friendUsername", async (req, res) => {
 });
 
 //update user bio
-router.patch("user/bio/:_id", async (req, res) => {
-  const user = await UserObject.findById(req.params._id);
-  user.bio = req.body.bio;
-  user.save();
+router.put("user/bio", async (req, res) => {
+  //const user = await UserObject.findById(req.body._id);
 
+  const collection = await db.collection("users");
+  const user = await collection.findById(req.body._id);
+  user.bio = req.body.bio;
+  await user.save();
   res.json(user);
 });
 

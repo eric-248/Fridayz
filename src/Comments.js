@@ -1,7 +1,5 @@
-
-import React, { useState } from 'react';
-import './index.css';
-
+import React, { useState } from "react";
+import "./index.css";
 
 /*
 const Comments = () => {
@@ -38,7 +36,10 @@ const Comments = () => {
 */
 const Comments = () => {
   return (
-    <div className="addToBean-container" style={{ display: 'flex', alignItems: 'left' }}>
+    <div
+      className="addToBean-container"
+      style={{ display: "flex", alignItems: "left" }}
+    >
       <div className="square">
         {/* Content that will be able to scroll vertically if it overflows goes here */}
       </div>
@@ -47,4 +48,3 @@ const Comments = () => {
 };
 
 export default Comments;
-

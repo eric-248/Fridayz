@@ -1,19 +1,65 @@
-import React, { useState } from 'react';
-import './index.css'; // Confirm this path matches your stylesheet location
+import React, { useState } from "react";
+import { useContext, useEffect } from "react";
+import { UserContext } from "./context/userContext";
+import "./index.css"; // Confirm this path matches your stylesheet location
+import axios from "axios";
 
 const ProfilePage = () => {
+  const { user } = useContext(UserContext);
+
   const [editMode, setEditMode] = useState(false);
-  const [bio, setBio] = useState("I do CS and I am depressed");
-  const [tempBio, setTempBio] = useState(bio);
+  const [currBio, setBio] = useState("");
+  const [tempBio, setTempBio] = useState(currBio);
+
+  function getUser() {
+    if (user) {
+      axios
+        .get("http://localhost:5050/record/user", {
+          params: {
+            username: user.username,
+          },
+        })
+        .then((response) => {
+          // Assuming the bio is returned in the response data
+          console.log(response.data);
+          setBio(response.data.bio);
+          setTempBio(currBio);
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error("Error fetching bio:", error);
+        });
+    }
+  }
+
+  async function bioData() {
+    try {
+      const response = await axios.put(
+        "http://localhost:5050/record/user/bio",
+        {
+          _id: user._id,
+          bio: currBio,
+        }
+      );
+      console.log("Updated user bio:", response.data);
+    } catch (error) {
+      console.error("Error updating user bio:", error);
+    }
+  }
+
+  useEffect(() => {
+    getUser();
+  }, [user]);
 
   const handleEditClick = () => {
-    setTempBio(bio);
+    setTempBio(currBio);
     setEditMode(true);
   };
 
   const handleSaveClick = () => {
     setBio(tempBio);
     setEditMode(false);
+    bioData();
   };
 
   const handleBioChange = (event) => {
@@ -23,8 +69,12 @@ const ProfilePage = () => {
   return (
     <div className="profile">
       <div className="profile-header">
-        <img src="https://via.placeholder.com/150" alt="Profile" className="profile-picture" />
-        <h2>Name</h2>
+        <img
+          src="https://via.placeholder.com/150"
+          alt="Profile"
+          className="profile-picture"
+        />
+        <h2>{user ? user.username : "Loading..."}</h2>
       </div>
       <div className="squareProfile">
         {/* Render bio as textarea in edit mode, otherwise render as paragraph */}
@@ -34,7 +84,7 @@ const ProfilePage = () => {
             <button onClick={handleSaveClick}>Save</button>
           </div>
         ) : (
-          <p>{bio}</p>
+          <p>{currBio}</p>
         )}
       </div>
       {/* Render "Edit" button outside the squareProfile div */}

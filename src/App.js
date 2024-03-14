@@ -26,7 +26,7 @@ function App() {
               <Route path="/friends" element={<FriendPage />}></Route>
               <Route path="/login" element={<Login />}></Route>
               <Route path="/register" element={<Register />}></Route>
-              <Route path="/Posts" element={<Posts />}></Route>
+              {/* <Route path="/Posts" element={<Posts />}></Route> */}
               <Route path="/Comments" element={<Comments />}></Route>
               <Route path="/Beans" element={<Beans />}></Route>
               <Route path="*" element={<NotFound />}></Route>
