@@ -9,11 +9,14 @@ Change directory to your server folder using the command:
 In the project directory server folder install the necessary packages by running:
 `
   npm install mongodb express cors
-  
+  `
+  `
   npm install axios
-  
+  `
+ ` 
   npm install mongoose
-  
+  `
+`
   npm i jsonwebtoken cookie-parser
 `
 
@@ -27,14 +30,15 @@ Open a new terminal at the root of your main project folder (not inside the serv
 Install the project dependicies with:
 `
  npm install
- 
+ `
+ `
  npm install -D react-router-dom
 `
 Run the program with:
 `
   npm run start
-  
   `
+
 
 
 
