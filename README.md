@@ -31,7 +31,7 @@ In the project directory server folder install the necessary packages by running
   npm i jsonwebtoken cookie-parser
 `
 
-After installed run:
+After installed run or if server crashes:
 `
   node --env-file=config.env server
 `
