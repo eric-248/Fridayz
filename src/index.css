@@ -231,6 +231,60 @@ code {
 }
 
 
+.selected-user-box {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adding a slight shadow for depth */
+  padding: 0px;
+  width: 400px; /* Adjust this to your preference */
+  margin: 0 auto; /* Center the container */
+}
+
+
+.friends-list-container {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adding a slight shadow for depth */
+  padding: 0px;
+  width: 400px; /* Adjust this to your preference */
+  margin: 0 auto; /* Center the container */
+}
+
+.friends-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.friends-list li {
+  margin-bottom: 10px; /* Add some spacing between each friend */
+}
+
+
+.dropdown-box {
+  position: relative;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  list-style: none;
+}
+
+.dropdown-list li {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.dropdown-list li:hover {
+  background-color: #f0f0f0;
+}
 
 
 

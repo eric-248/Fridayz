@@ -53,6 +53,8 @@
     ]
   },
   "devDependencies": {
+    "install": "^0.13.0",
+    "npm": "^10.5.0",
     "react-router-dom": "^6.22.3"
   }
 }
