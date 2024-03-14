@@ -50,7 +50,7 @@ const FriendPage = () => {
     // setFriends([...friends, newFriend]);
     if (name !== "") {
       try {
-        const response = await axios.put(
+        const response = await axios.patch(
           "http://localhost:5050/record/user/friends/new",
           {
             _id: user._id,

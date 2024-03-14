@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import records from "./routes/record.js";
 import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 
 const PORT = process.env.PORT || 5050;
 const app = express();
@@ -16,6 +17,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors(corsOrigin));
 app.use(express.json());
 app.use("/record", records);
+
+app.use(bodyParser.json({ limit: "16mb" }));
+app.use(bodyParser.urlencoded({ limit: "16mb", extended: true }));
 
 // start the Express server
 app.listen(PORT, () => {

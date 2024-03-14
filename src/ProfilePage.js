@@ -13,39 +13,38 @@ const ProfilePage = () => {
 
   function getUser() {
     if (user) {
-      axios
-        .get("http://localhost:5050/record/user", {
-          params: {
-            username: user.username,
-          },
-        })
-        .then((response) => {
-          // Assuming the bio is returned in the response data
-          console.log(response.data);
-          setBio(response.data.bio);
-          setTempBio(currBio);
-        })
-        .catch((error) => {
-          // Handle errors
-          console.error("Error fetching bio:", error);
-        });
+      // axios
+      //   .get("http://localhost:5050/record/user", {
+      //     params: {
+      //       username: user.username,
+      //     },
+      //   })
+      //   .then((response) => {
+      //     // Assuming the bio is returned in the response data
+      //     console.log(response.data);
+      //     setBio(response.data.bio);
+      //     setTempBio(currBio);
+      //   })
+      //   .catch((error) => {
+      //     // Handle errors
+      //     console.error("Error fetching bio:", error);
+      //   });
     }
   }
 
-  async function bioData() {
+  const updateBio = async () => {
     try {
-      const response = await axios.put(
-        "http://localhost:5050/record/user/bio",
-        {
-          _id: user._id,
-          bio: currBio,
-        }
+      console.log(user._id, currBio);
+      const response = await axios.patch(
+        "http://localhost:5050/record/user/updateBio",
+        { _id: user._id, newBio: currBio }
       );
-      console.log("Updated user bio:", response.data);
+      console.log("Bio updated successfully:", response.data);
+      return response.data;
     } catch (error) {
       console.error("Error updating user bio:", error);
     }
-  }
+  };
 
   useEffect(() => {
     getUser();
@@ -59,7 +58,7 @@ const ProfilePage = () => {
   const handleSaveClick = () => {
     setBio(tempBio);
     setEditMode(false);
-    bioData();
+    updateBio();
   };
 
   const handleBioChange = (event) => {

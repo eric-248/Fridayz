@@ -198,12 +198,42 @@ router.put("/posts/comment/:_id", async (req, res) => {
 });
 
 //add a friend
-router.put("/user/friends/new", async (req, res) => {
-  const user = await UserObject.findById(req.body._id);
-  post.friends.push(req.body.friendUsername);
-  post.save();
+// router.patch("/user/friends/new", async (req, res) => {
+//   const friendUsername = req.body.friendUsername;
+//   const collection = await db.collection("users");
+//   const user = await collection.findOne({ _id: req.body._id });
 
-  res.json(post);
+//   //const user = await UserObject.findById(req.body._id);
+//   user.friends.push(req.body.friendUsername);
+//   user.save();
+
+//   res.json(user);
+// });
+router.patch("/user/friends/new", async (req, res) => {
+  try {
+    const friendUsername = req.body.friendUsername;
+    const userId = req.body._id;
+    const extractedId = userId.match(/(?<=")[^"]+(?=")/)[0];
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+    const collection = await db.collection("users");
+    const user = await collection.findOne({ _id: new ObjectId(extractedId) });
+    if (!user) {
+      return res.status(404).json({ error: "ALKFJIEUROEWIUUser not found" });
+    }
+    user.friends.push(friendUsername);
+
+    await collection.updateOne(
+      { _id: new ObjectId(extractedId) },
+      { $set: { friends: user.friends } }
+    );
+    const result = await collection.findOne({ _id: new ObjectId(extractedId) });
+    res.json(user);
+  } catch (error) {
+    console.error("Error adding friend:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 //delete a friend
@@ -213,20 +243,38 @@ router.put("/user/friends/delete/:_id/:friendUsername", async (req, res) => {
   if (index !== -1) {
     user.friends.splice(index, 1);
   }
-  await user.save();
+  //await user.save();
 
   res.json(post);
 });
 
 //update user bio
-router.put("user/bio", async (req, res) => {
-  //const user = await UserObject.findById(req.body._id);
+router.patch("user/updateBio", async (req, res) => {
+  try {
+    const newBio = req.body.newBio;
+    const userId = req.body._id;
+    const extractedId = userId.match(/(?<=")[^"]+(?=")/)[0];
 
-  const collection = await db.collection("users");
-  const user = await collection.findById(req.body._id);
-  user.bio = req.body.bio;
-  await user.save();
-  res.json(user);
+    if (!userId) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+    const collection = await db.collection("users");
+    const user = await collection.findOne({ _id: new ObjectId(extractedId) });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Update the user document with the new bio contents
+    await collection.updateOne(
+      { _id: new ObjectId(extractedId) },
+      { $set: { bio: newBio } }
+    );
+    res.json(result);
+  } catch (error) {
+    console.error("Error updating bio:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 // This section will help you create a new record.
