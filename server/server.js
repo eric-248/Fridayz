@@ -11,12 +11,11 @@ const corsOrigin = {
   credentials: true,
   optionSuccessStatus: 200,
 };
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
 app.use(cors(corsOrigin));
 app.use(express.json());
 app.use("/record", records);
-
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
 
 // start the Express server
 app.listen(PORT, () => {

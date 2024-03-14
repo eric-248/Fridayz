@@ -3,11 +3,15 @@ import Beans from "./Beans";
 import Comments from "./Comments";
 import Posts from "./Posts";
 import axios from "axios";
+import { useContext } from "react";
+import { UserContext } from "./context/userContext";
 
 const HomePage = () => {
   const [beans, setBeans] = useState([]);
   const [showPosts, setShowPosts] = useState(true); // New state to manage showing posts
   //SET SHOW POSTS TO TRUE FOR NOW TO EDIT IT
+
+  const { user } = useContext(UserContext);
 
   const addBean = (bean) => {
     setBeans((prevBeans) => [...prevBeans, bean]);
@@ -15,36 +19,11 @@ const HomePage = () => {
 
   const handlePostBeans = async () => {
     setShowPosts(true); // Update state to show posts
-    axios
-      .post("http://localhost:5050/record/users/register", {
-        email: "user1234@gmail.com",
-        username: "user1234",
-        password: "password1234",
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch(console.error);
-
-    // e.preventDefault();
-    // let result = await fetch("http://localhost:5000/register", {
-    //   method: "post",
-    //   body: JSON.stringify({ name, email }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-    // result = await result.json();
-    // console.warn(result);
-    // if (result) {
-    //   alert("Data saved succesfully");
-    //   setEmail("");
-    //   setName("");
-    // }
   };
 
   return (
     <div>
+      {!!user && <h1>Hi {user.username}!</h1>}
       <Beans addBean={addBean} />
       <div style={{ display: "flex", flexDirection: "row" }}>
         {showPosts && (
