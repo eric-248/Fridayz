@@ -2,7 +2,7 @@ import express from "express";
 
 // This will help us connect to the database
 import db from "../db/connection.js";
-
+import cookieParser from "cookie-parser";
 // This help convert the id from string to ObjectId for the _id.
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
@@ -329,14 +329,49 @@ router.post("/users/login", async (req, res) => {
     //       .json(user);
     //   }
     // );
-    res.cookie("_id", user._id, { maxAge: 900000, httpOnly: true });
-    res.cookie("email", user.email, { maxAge: 900000, httpOnly: true });
-    res.cookie("username", user.username, { maxAge: 900000, httpOnly: true });
-    res.cookie("password", user.password, { maxAge: 900000, httpOnly: true });
+    res.cookie("_id", user._id, {
+      maxAge: 900000,
+      sameSite: "None",
+      httpOnly: false,
+      secure: true,
+    });
+    res.cookie("email", user.email, {
+      maxAge: 900000,
+      sameSite: "None",
+      httpOnly: false,
+      secure: true,
+    });
+    res.cookie("username", user.username, {
+      maxAge: 900000,
+      sameSite: "None",
+      httpOnly: false,
+      secure: true,
+    });
+    res.cookie("password", user.password, {
+      maxAge: 900000,
+      sameSite: "None",
+      httpOnly: false,
+      secure: true,
+    });
 
     res.send("updated");
   } else {
     res.json({ error: "Incorrect password" });
+  }
+});
+
+//get current user
+router.post("/users/current", async (req, res) => {
+  try {
+    const _id = req.body._id;
+    if (_id) {
+      res.json(req.body);
+    } else {
+      res.json({ error: "No account logged in" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
