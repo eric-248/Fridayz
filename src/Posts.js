@@ -33,26 +33,23 @@ const Posts = () => {
     }
   };
 
-  function getFriends() {
+  const getFriends = async () => {
     if (user) {
-      axios
-        .get("http://localhost:5050/record/user", {
+      try {
+        const response = await axios.get("http://localhost:5050/record/user", {
           params: {
             username: user.username,
           },
-        })
-        .then((response) => {
-          // Assuming the bio is returned in the response data
-          console.log(response.data.friends);
-          setFriends(response.data.friends);
-          //setFriends(response.data.friends);
-        })
-        .catch((error) => {
-          // Handle errors
-          //console.error("Error fetching bio:", error);
         });
+        // Assuming the bio is returned in the response data
+        //console.log(response.data.friends);
+        setFriends(response.data.friends);
+      } catch (error) {
+        console.error("Error fetching bio:", error);
+        throw error;
+      }
     }
-  }
+  };
 
   const fetchPosts = async () => {
     try {
@@ -130,49 +127,84 @@ const Posts = () => {
     setBeansInFilteredPosts(updatedBeansInFilteredPosts);
   };
 
+  // useEffect(() => {
+  //   fetchBeans();
+  //   getFriends();
+  //   fetchPosts();
+  //   setDateToPost(getPreviousFriday());
+  //   const filtered = filterPostsByFriendsAndDate();
+  //   setFilteredPosts(filtered);
+  //   console.log("filter", filteredPosts);
+  //   getBeansForPosts();
+  //   //console.log("here");
+  //   // console.log(posts[0].beans);
+  //   console.log("bean", beansInFilteredPosts);
+  // }, []);
+
   useEffect(() => {
     fetchBeans();
     getFriends();
     fetchPosts();
     setDateToPost(getPreviousFriday());
+  }, [user]); // Include empty dependency array to run once on mount
+
+  useEffect(() => {
     const filtered = filterPostsByFriendsAndDate();
     setFilteredPosts(filtered);
-    //console.log(filteredPosts);
+  }, [friends, posts, dateToPost]); // Include all dependencies affecting filteredPosts
+
+  useEffect(() => {
     getBeansForPosts();
-    //console.log("here");
-    // console.log(posts[0].beans);
-    //console.log(beansInFilteredPosts);
-  }, []);
+  }, [filteredPosts, beans]);
 
   return (
     <div className="posts-page" style={{ padding: "20px" }}>
-      <div
-        className="square"
-        style={{
-          backgroundColor: "white",
-          padding: "20px",
-          borderRadius: "10px",
-          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-        }}
-      >
-        {beansInFilteredPosts.map((post, index) => (
-          <div key={index}>
+      {beansInFilteredPosts.map((post, index) => (
+        <div
+          key={index}
+          className="square"
+          style={{
+            display: "flex",
+            backgroundColor: "white",
+            padding: "20px",
+            borderRadius: "10px",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+            marginBottom: "20px",
+          }}
+        >
+          <div style={{ marginRight: "20px" }}>
             <h2>{post.username}</h2>
             <p>To be posted: {post.toBePosted}</p>
             <p>Likes: {post.likes}</p>
-            <p>Comments: {post.comments}</p>
+          </div>
+          <div>
             {/* Display beans for the post */}
-            <ul>
-              {post.beans.map((bean) => (
-                <li key={bean._id} style={{ listStyleType: "none" }}>
-                  Bean: {bean.thought}{" "}
-                  {/* Assuming each bean has a 'name' property */}
-                </li>
+            {post.beans.map((bean, beanIndex) => (
+              <div
+                key={beanIndex}
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: "5px",
+                  padding: "10px",
+                  marginBottom: "10px",
+                }}
+              >
+                <p>Timestamp: {bean.time}</p>
+                <p>Content: {bean.thought}</p>
+                {/* Add other bean details as needed */}
+              </div>
+            ))}
+          </div>
+          <div style={{ marginLeft: "20px" }}>
+            <h3>Comments:</h3>
+            <ul style={{ listStyleType: "none", padding: 0 }}>
+              {post.comments.map((comment, commentIndex) => (
+                <li key={commentIndex}>{comment}</li>
               ))}
             </ul>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

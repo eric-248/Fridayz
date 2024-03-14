@@ -40,9 +40,9 @@ const HomePage = () => {
             <Posts />
           </div>
         )}
-        <div style={{ flex: 1 }}>
+        {/* <div style={{ flex: 1 }}>
           <Comments />
-        </div>
+        </div> */}
       </div>
       <button onClick={handlePostBeans}>It's Friday!</button>
     </div>
