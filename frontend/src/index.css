@@ -1,0 +1,241 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #aee5db; 
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.square {
+  
+  width: 100%; /* Takes full width of its parent (.square-wrapper) */
+  height: 100%; /* Takes full height of its parent */
+  background-color: white; /* Background color of the square */
+  margin-right: 40px; 
+  overflow-y: auto; /* Allows vertical scrolling if content overflows */
+  overflow-x: hidden; /* Hides horizontal overflow */
+  border-radius: 10px; 
+}
+
+
+.addToBean-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60%; /* Sets the width of the input container to 60% of its parent */
+  height: 100%; /* Adjust based on content, ensures the container wraps the input tightly */
+  background-color: rgb(255, 255, 255); /* Example styling */
+  display: flex; /* Utilizes flexbox for centering, if needed */
+  border-radius: 10px; 
+
+}
+
+.addToBean-input {
+  width: 100%; /* Makes the input take the full width of its container */
+  height: 100%; /* Optional, depending on the desired height */
+  /* Additional input styling */
+  border: 1px solid #ccc; /* Example border styling */
+  resize: none;
+  border-radius: 10px; 
+}
+
+
+
+.home {
+  text-align: left; /* or default alignment for the text */
+  height: 100vh;    /* Adjust this as needed */
+}
+
+
+
+.app-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.square-wrapper {
+
+  display: flex;
+  width: 90%; /* 60% of its parent container width */
+  height: 80%; /* Example height, adjust as needed */
+  margin-left: 5%; /* Aligns the wrapper to the right */
+  margin-top: 20px;
+  justify-content: space-between; /* This will create space between the children */
+  margin-right: 5%; /* Ensures the wrapper is centered */
+  border-radius: 10px; 
+}
+
+
+/* for profile */
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.profile-header {
+  margin-bottom: 0px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-picture {
+  width: 150px; /* Adjust the size as needed */
+  height: 150px; /* Ensure this matches the width for a perfect circle */
+  border-radius: 50%; /* This creates the circular shape */
+  object-fit: cover; /* Ensures the image covers the space without distortion */
+  border: 3px solid #ddd; /* Optional: adds a border around the image */
+  margin: 0 auto; 
+}
+
+.profile-bio {
+  font-size: 16px;
+}
+
+.profile-nav {
+  width: 50px; /* Adjust the size as needed */
+  height: 50px; /* Ensure this matches the width for a perfect circle */
+  border-radius: 50%; /* This creates the circular shape */
+  object-fit: cover; /* Ensures the image covers the space without distortion */
+  border: 3px solid #ddd; /* Optional: adds a border around the image */
+}
+
+
+.logo-small {
+  width: 100vw;
+  height: auto;
+  min-width: 50px;
+  max-width: 200px;
+}
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px; /* Adjust padding as needed */
+}
+
+.links {
+  display: flex;
+  gap: 20px; /* Adjust the gap between links as needed */
+}
+
+
+.profile-nav-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%; /* Position right below the profile image */
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: auto;
+  padding: 10px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+}
+
+
+.friends-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.friend-container {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.profile-picture {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Creates the circle shape */
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.squareProfile {
+  background-color: white; /* White background */
+  padding: 20px; /* Padding around the content */
+  border-radius: 10px; /* Rounded corners */
+  margin: 10px auto; /* Top and bottom margin for spacing, auto for left and right margins centers the div */
+  /* Ensure a specific width is set if you want to use margin auto for centering */
+  width: 90%; /* Adjust the width as needed */
+  max-width: 500px; /* Optional: Sets a max-width for larger screens */
+
+}
+
+
+
+.friend-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.friend-action {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+.comments-container {
+  max-height: 200px; /* Adjust the height as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ccc; /* Optional: adds a border around the comments container */
+  padding: 10px; /* Adds some padding inside the container */
+  margin-top: 20px; /* Separates the container from elements above it */
+}
+
+
+.post-component {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60%; /* Sets the width of the input container to 60% of its parent */
+  height: 100%; /* Adjust based on content, ensures the container wraps the input tightly */
+  background-color: rgb(255, 255, 255); /* Example styling */
+  display: flex; /* Utilizes flexbox for centering, if needed */
+}
+
+
+
+
+
+
+
+
+
+
