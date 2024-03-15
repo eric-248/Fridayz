@@ -74,6 +74,33 @@ const UserController = {
     }
   },
 
+  getAllUsers: async (req, res) => {
+    try {
+      const users = await User.find();
+      res.json(users);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  // ADDED Get user profile by id
+  getProfileById: async (req, res) => {
+    try {
+      // Retrieve user information from the request object
+      const userId = req.params.userId;
+
+      // Find the user by ID
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   // Update user profile
   updateProfile: async (req, res) => {
     try {
@@ -103,7 +130,6 @@ const UserController = {
       // Retrieve user information from the request object
       const userId = req.user.userId;
       const friendId = req.params.friendId;
-
       // Find the current user and add the friend to their friends list
       const user = await User.findById(userId);
       if (!user) {

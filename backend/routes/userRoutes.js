@@ -14,6 +14,10 @@ router.post("/login", UserController.login);
 // Get user profile (requires authentication)
 router.get("/profile", authenticate, UserController.getProfile);
 
+router.get("/allUsers", UserController.getAllUsers);
+
+router.get("/profile/:userId", UserController.getProfileById);
+
 // Update user profile (requires authentication)
 router.put(
   "/profile",

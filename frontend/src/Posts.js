@@ -15,14 +15,16 @@ const Posts = () => {
         response.data.map(async (post) => {
           const beansWithText = await Promise.all(
             post.beans.map(async (beanId) => {
-              const beanResponse = await axios.get(`http://localhost:5050/api/beans/${beanId}`);
+              const beanResponse = await axios.get(
+                `http://localhost:5050/api/beans/${beanId}`
+              );
               return beanResponse.data;
             })
           );
           return { ...post, beans: beansWithText };
         })
       );
-      console.log(postsWithBeans)
+      console.log(postsWithBeans);
       setPosts(postsWithBeans);
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -96,30 +98,40 @@ const Posts = () => {
         >
           {/* Display post content */}
           <div>{post.content}</div>
-          
+
           {/* Display beans associated with the post */}
           <div>
             {post.beans.map((bean) => (
               <div key={bean._id}>
                 {/* {bean.type === "text" ? ( */}
-                  <div style={{ marginBottom: "10px", borderBottom: "1px solid #eee", paddingBottom: "10px" }}>{bean.thought}</div>
+                <div
+                  style={{
+                    marginBottom: "10px",
+                    borderBottom: "1px solid #eee",
+                    paddingBottom: "10px",
+                  }}
+                >
+                  {bean.thought}
+                </div>
                 {/* ) : (
                   <img src={bean.content} alt="Uploaded" style={{ maxWidth: "100%", maxHeight: "800px", display: "block", marginBottom: "10px" }} />
                 )} */}
               </div>
             ))}
           </div>
-          
+
           {/* Like/unlike buttons */}
           <div>
             <button onClick={() => handleLike(post._id)}>Like</button>
             <button onClick={() => handleUnlike(post._id)}>Unlike</button>
           </div>
-          
+
           {/* Comment section */}
           <div>
             <input type="text" placeholder="Add comment" />
-            <button onClick={() => handleAddComment(post._id, "New comment")}>Add Comment</button>
+            <button onClick={() => handleAddComment(post._id, "New comment")}>
+              Add Comment
+            </button>
           </div>
         </div>
       ))}

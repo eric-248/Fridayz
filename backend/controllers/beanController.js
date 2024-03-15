@@ -14,6 +14,7 @@ const BeanController = {
       await newBean.save();
 
       res.status(201).json(newBean);
+      console.log(newBean._id);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
