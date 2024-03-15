@@ -1,4 +1,4 @@
-# Start
+# Welcome to Starting Fridayz!
 In .env file, add mongodb connection string into MONGODB_URI  
 
 ## Start the backend:  
