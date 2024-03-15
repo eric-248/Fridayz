@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import heartIcon from "./Pictures/heart.png";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
 
+  
+
   useEffect(() => {
     fetchPosts();
   }, []);
+
+
+
+  
 
   const fetchPosts = async () => {
     try {
@@ -64,6 +71,27 @@ const Posts = () => {
     }
   };
 
+/* will toggle like, 
+  const toggleLike = async (postId, likedByUser) => {
+    try {
+      const token = localStorage.getItem("token");
+      const endpoint = likedByUser
+        ? `http://localhost:5050/api/posts/${postId}/unlike`
+        : `http://localhost:5050/api/posts/${postId}/like`;
+      
+      const method = likedByUser ? axios.delete : axios.post;
+
+      await method(endpoint, {}, {
+        headers: { Authorization: token },
+      });
+
+      fetchPosts(); // Refresh posts to reflect the new like status
+    } catch (error) {
+      console.error("Error toggling like status:", error);
+    }
+  };
+
+*/
   const handleAddComment = async (postId, comment) => {
     try {
       const token = localStorage.getItem("token");
@@ -83,12 +111,14 @@ const Posts = () => {
     }
   };
 
+
+
   return (
     <div className="posts-page" style={{ padding: "20px" }}>
       {posts.map((post) => (
         <div
           key={post._id}
-          className="square"
+          className="commentsSquare"
           style={{
             backgroundColor: "white",
             padding: "20px",
@@ -98,12 +128,12 @@ const Posts = () => {
           }}
         >
           {/* Display post content */}
-          <div>{post.content}</div>
-          <h2>
+          <div style={{ marginLeft: "40px" }}>{post.content}</div>
+          <h2 style={{ marginRight: "40px" }}>
             <Link to={`/profile/${post.username}`}>{post.username}</Link>
           </h2>
           {/* Display beans associated with the post */}
-          <div>
+          <div style={{ marginRight: "40px", flex: 1 }}>
             {post.beans.map((bean) => (
               <div key={bean._id}>
                 {/* {bean.type === "text" ? ( */}
