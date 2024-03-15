@@ -1,17 +1,19 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const express = require('express');
-const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const mongoose = require('mongoose');
+const express = require("express");
+const cors = require("cors");
+const { MongoClient, ServerApiVersion } = require("mongodb");
+const mongoose = require("mongoose");
 
 const app = express();
 const uri = process.env.MONGODB_URI;
 
-app.use(cors({
-    origin: 'http://localhost:3000', // Replace with your frontend origin
-    credentials: true // Allow credentials
-  }));
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Replace with your frontend origin
+    credentials: true, // Allow credentials
+  })
+);
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -19,7 +21,7 @@ const client = new MongoClient(uri, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
 });
 
 async function connectToMongoDB() {
@@ -28,7 +30,9 @@ async function connectToMongoDB() {
     await client.connect();
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    console.log(
+      "Pinged your deployment. You successfully connected to MongoDB!"
+    );
 
     // Connect Mongoose
     await mongoose.connect(uri);
@@ -58,17 +62,17 @@ async function closeMongoDBConnection() {
 app.use(express.json()); // Parse JSON bodies
 
 // Routes
-const userRoutes = require('./routes/userRoutes');
-const postRoutes = require('./routes/postRoutes');
-const beanRoutes = require('./routes/beanRoutes');
-app.use('/api/users', userRoutes);
-app.use('/api/posts', postRoutes);
-app.use('/api/beans', beanRoutes);
+const userRoutes = require("./routes/userRoutes");
+const postRoutes = require("./routes/postRoutes");
+const beanRoutes = require("./routes/beanRoutes");
+app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/beans", beanRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send("Something broke!");
 });
 
 // Start server
@@ -84,7 +88,7 @@ app.listen(PORT, async () => {
 });
 
 // Close connections when exiting
-process.on('SIGINT', async () => {
+process.on("SIGINT", async () => {
   try {
     await closeMongoDBConnection();
     console.log("Connections closed due to application termination");
