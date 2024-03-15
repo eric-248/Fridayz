@@ -119,7 +119,7 @@ const FriendPage = () => {
             <li key={index}>{friend}</li>
           ))}
         </ul>
-      </div> */}
+      </div> *
     </div>
   );
 };
