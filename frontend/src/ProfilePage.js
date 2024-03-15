@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./index.css"; // Confirm this path matches your stylesheet location
