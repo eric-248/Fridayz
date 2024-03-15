@@ -5,21 +5,8 @@ import axios from "axios";
 import SearchBar from "./searchBar";
 
 const FriendPage = () => {
-  const [friends, setFriends] = useState([
-    // {
-    //   id: 1,
-    //   name: "John Doe",
-    //   pictureUrl: "https://placekitten.com/200/200",
-    //   status: "accepted",
-    // },
-    // {
-    //   id: 2,
-    //   name: "Jane Doe",
-    //   pictureUrl: "https://placekitten.com/200/200",
-    //   status: "pending",
-    // },
-    // // Initial friends data
-  ]);
+  const [friends, setFriends] = useState([]);
+
   const [user, setUser] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -37,55 +24,44 @@ const FriendPage = () => {
         }
       );
       setUser(response.data); // Update user state with profile data
+      setFriends(response.data.friends);
+      console.log(friends);
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
   };
 
-  function getFriends() {
-    if (user) {
-      console.log(user);
-      setFriends(user.friends);
-      console.log(friends);
-    }
-  }
-
   useEffect(() => {
     //console.log(user);
+    console.log(friends);
     fetchUserProfile();
-    getFriends();
+    console.log(friends);
+    //console.log(friends);
   }, []);
 
   const removeFriend = (id) => {
     setFriends(friends.filter((friend) => friend.id !== id));
   };
 
-  // const addFriend = (username, pictureUrl) => {
-  //   // const newFriend = {
-  //   //   id: Math.max(...friends.map((friend) => friend.id)) + 1,
-  //   //   name,
-  //   //   pictureUrl,
-  //   //   status: "pending",
-  //   // };
-  //   // setFriends([...friends, newFriend]);
-  // };
-
   const addFriend = async (friendId) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `http://localhost:5050/api/users/add-friend/${friendId}`,
-        {},
-        {
-          headers: {
-            Authorization: token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(response.data.message); // "Friend added successfully"
-    } catch (error) {
-      console.error("Error adding friend:", error);
+    console.log(friendId);
+    if (friendId) {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.post(
+          `http://localhost:5050/api/users/add-friend/${friendId}`,
+          {},
+          {
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(response.data.message); // "Friend added successfully"
+      } catch (error) {
+        console.error("Error adding friend:", error);
+      }
     }
   };
 
@@ -101,8 +77,10 @@ const FriendPage = () => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredFriends = friends.filter((friend) =>
-    friend.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredFriends = friends.filter(
+    (friend) =>
+      friend.name &&
+      friend.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -118,20 +96,30 @@ const FriendPage = () => {
         setSelectedUser={setSelectedUser}
       />
       <button
-        onClick={() => addFriend("user1", "https://placekitten.com/g/200/300")}
+        onClick={() =>
+          addFriend(selectedUser, "https://placekitten.com/g/200/300")
+        }
       >
         Add Friend
       </button>
-      {filteredFriends.map((friend) => (
-        <Friend
-          key={friend.id}
-          name={friend.name}
-          pictureUrl={friend.pictureUrl}
-          onRemove={() => removeFriend(friend.id)}
-          status={friend.status}
-          onAccept={() => acceptFriend(friend.id)}
-        />
-      ))}
+      {/* {friends &&
+        filteredFriends.map((friend) => (
+          <Friend
+            key={friend.id}
+            name={friend.name}
+            pictureUrl={friend.pictureUrl}
+            onRemove={() => removeFriend(friend.id)}
+            status={friend.status}
+            onAccept={() => acceptFriend(friend.id)}
+          />
+        ))} */}
+      {/* <div className="friends-list-container">
+        <ul className="friends-list">
+          {friends.map((friend, index) => (
+            <li key={index}>{friend}</li>
+          ))}
+        </ul>
+      </div> */}
     </div>
   );
 };

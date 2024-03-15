@@ -18,6 +18,8 @@ router.get("/allUsers", UserController.getAllUsers);
 
 router.get("/profile/:userId", UserController.getProfileById);
 
+router.get("/profile/byUser/:username", UserController.getUserIdByUsername);
+
 // Update user profile (requires authentication)
 router.put(
   "/profile",

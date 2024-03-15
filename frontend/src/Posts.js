@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -98,7 +99,9 @@ const Posts = () => {
         >
           {/* Display post content */}
           <div>{post.content}</div>
-
+          <h2>
+            <Link to={`/profile/${post.username}`}>{post.username}</Link>
+          </h2>
           {/* Display beans associated with the post */}
           <div>
             {post.beans.map((bean) => (
@@ -111,6 +114,7 @@ const Posts = () => {
                     paddingBottom: "10px",
                   }}
                 >
+                  {bean.time} <br />
                   {bean.thought}
                 </div>
                 {/* ) : (
@@ -119,13 +123,21 @@ const Posts = () => {
               </div>
             ))}
           </div>
-
+          Likes {post.likes}
+          <div className="comments-container">
+            Comments:
+            {post.comments[0] &&
+              post.comments.map((comment, index) => (
+                <div key={index} className="comment">
+                  {comment}
+                </div>
+              ))}
+          </div>
           {/* Like/unlike buttons */}
           <div>
             <button onClick={() => handleLike(post._id)}>Like</button>
             <button onClick={() => handleUnlike(post._id)}>Unlike</button>
           </div>
-
           {/* Comment section */}
           <div>
             <input type="text" placeholder="Add comment" />
