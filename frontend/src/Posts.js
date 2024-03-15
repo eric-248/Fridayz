@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import heartIcon from "./Pictures/heart.png";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
 
+  
+
   useEffect(() => {
     fetchPosts();
   }, []);
+
+
+
+  
 
   const fetchPosts = async () => {
     try {
@@ -64,6 +71,27 @@ const Posts = () => {
     }
   };
 
+/* will toggle like, 
+  const toggleLike = async (postId, likedByUser) => {
+    try {
+      const token = localStorage.getItem("token");
+      const endpoint = likedByUser
+        ? `http://localhost:5050/api/posts/${postId}/unlike`
+        : `http://localhost:5050/api/posts/${postId}/like`;
+      
+      const method = likedByUser ? axios.delete : axios.post;
+
+      await method(endpoint, {}, {
+        headers: { Authorization: token },
+      });
+
+      fetchPosts(); // Refresh posts to reflect the new like status
+    } catch (error) {
+      console.error("Error toggling like status:", error);
+    }
+  };
+
+*/
   const handleAddComment = async (postId, comment) => {
     try {
       const token = localStorage.getItem("token");
@@ -83,6 +111,8 @@ const Posts = () => {
     }
   };
 
+
+
   return (
     <div className="posts-page" style={{ padding: "20px" }}>
       {posts.map((post) => (
@@ -98,12 +128,12 @@ const Posts = () => {
           }}
         >
           {/* Display post content */}
-          <div>{post.content}</div>
-          <h2>
+          <div style={{ marginLeft: "40px" }}>{post.content}</div>
+          <h2 style={{ marginRight: "40px" }}>
             <Link to={`/profile/${post.username}`}>{post.username}</Link>
           </h2>
           {/* Display beans associated with the post */}
-          <div>
+          <div style={{ marginRight: "40px" }}>
             {post.beans.map((bean) => (
               <div key={bean._id}>
                 {/* {bean.type === "text" ? ( */}
@@ -123,7 +153,7 @@ const Posts = () => {
               </div>
             ))}
           </div>
-          Likes {post.likes}
+         
           <div className="comments-container">
             Comments:
             {post.comments[0] &&
@@ -134,13 +164,26 @@ const Posts = () => {
               ))}
           </div>
           {/* Like/unlike buttons */}
+          <div style={{ marginLeft: "40px" }}>  
+            Likes {post.likes} </div>
           <div>
-            <button onClick={() => handleLike(post._id)}>Like</button>
-            <button onClick={() => handleUnlike(post._id)}>Unlike</button>
+          <button onClick={() => handleLike(post._id)} style={{ background: 'none', border: 'none' }}>
+              <img src={heartIcon} alt="Like" style={{ width: '24px', height: '24px' }} />
+            </button>
+            <button onClick={() => handleUnlike(post._id)} style={{ background: 'none', border: 'none' }}>
+              <img src={heartIcon} alt="Unlike" style={{ width: '24px', height: '24px', opacity: 0.5 }} />
+            </button>
           </div>
           {/* Comment section */}
-          <div>
-            <input type="text" placeholder="Add comment" />
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: 'center' }}>
+            <input type="text" placeholder="Add comment" 
+            style={{
+              border: "2px solid #ccc", // Light grey border
+              borderRadius: "4px", // Slightly rounded corners for a modern look
+              padding: "8px", // Inside spacing for the text
+              width: "80%", // Making the input take up 80% of the parent width
+              maxWidth: "500px", // Maximum width to ensure it doesn't get too wide on large screens
+            }}/>
             <button onClick={() => handleAddComment(post._id, "New comment")}>
               Add Comment
             </button>
