@@ -1,7 +1,7 @@
 Start the backend:
 - Modify the .env file with the correct port, mongoDB URL, and a secure JWT token
-  `npm i`
-  `node index.js`
+- `npm i`
+- `node index.js`
 
 Start the frontend:
 - Go into the main project folder (not inside the frontend or backend folder)
