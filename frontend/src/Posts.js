@@ -6,15 +6,12 @@ import heartIcon from "./Pictures/heart.png";
 const Posts = () => {
   const [posts, setPosts] = useState([]);
 
-  
+  // State to hold comments for each post separately
+  const [comments, setComments] = useState({});
 
   useEffect(() => {
     fetchPosts();
   }, []);
-
-
-
-  
 
   const fetchPosts = async () => {
     try {
@@ -71,47 +68,40 @@ const Posts = () => {
     }
   };
 
-/* will toggle like, 
-  const toggleLike = async (postId, likedByUser) => {
-    try {
-      const token = localStorage.getItem("token");
-      const endpoint = likedByUser
-        ? `http://localhost:5050/api/posts/${postId}/unlike`
-        : `http://localhost:5050/api/posts/${postId}/like`;
-      
-      const method = likedByUser ? axios.delete : axios.post;
-
-      await method(endpoint, {}, {
-        headers: { Authorization: token },
-      });
-
-      fetchPosts(); // Refresh posts to reflect the new like status
-    } catch (error) {
-      console.error("Error toggling like status:", error);
-    }
-  };
-
-*/
   const handleAddComment = async (postId, comment) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-        `http://localhost:5050/api/posts/${postId}/comments`,
-        { comment },
-        {
-          headers: {
-            Authorization: token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      fetchPosts(); // Refresh posts after adding comment
-    } catch (error) {
-      console.error("Error adding comment:", error);
+    if (comment !== "") {
+      try {
+        const token = localStorage.getItem("token");
+        await axios.post(
+          `http://localhost:5050/api/posts/${postId}/comments`,
+          { comment },
+          {
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        fetchPosts(); // Refresh posts after adding comment
+        // Clear the input text after submitting
+        setComments((prevComments) => ({
+          ...prevComments,
+          [postId]: "", // Clear the comment text for the corresponding post
+        }));
+      } catch (error) {
+        console.error("Error adding comment:", error);
+      }
     }
   };
 
-
+  const handleChange = (event, postId) => {
+    const { value } = event.target;
+    // Update the comment state for the corresponding post
+    setComments((prevComments) => ({
+      ...prevComments,
+      [postId]: value,
+    }));
+  };
 
   return (
     <div className="posts-page" style={{ padding: "20px" }}>
@@ -136,7 +126,6 @@ const Posts = () => {
           <div style={{ marginRight: "40px", flex: 1 }}>
             {post.beans.map((bean) => (
               <div key={bean._id}>
-                {/* {bean.type === "text" ? ( */}
                 <div
                   style={{
                     marginBottom: "10px",
@@ -147,13 +136,10 @@ const Posts = () => {
                   {bean.time} <br />
                   {bean.thought}
                 </div>
-                {/* ) : (
-                  <img src={bean.content} alt="Uploaded" style={{ maxWidth: "100%", maxHeight: "800px", display: "block", marginBottom: "10px" }} />
-                )} */}
               </div>
             ))}
           </div>
-         
+
           <div className="comments-container" style={{ flex: 1 }}>
             Comments:
             {post.comments[0] &&
@@ -164,27 +150,55 @@ const Posts = () => {
               ))}
           </div>
           {/* Like/unlike buttons */}
-          <div style={{ marginLeft: "40px"}}>  
-            Likes {post.likes} </div>
+          <div style={{ marginLeft: "40px" }}>Likes {post.likes} </div>
           <div>
-          <button onClick={() => handleLike(post._id)} style={{ background: 'none', border: 'none' }}>
-              <img src={heartIcon} alt="Like" style={{ width: '24px', height: '24px' }} />
+            <button
+              onClick={() => handleLike(post._id)}
+              style={{ background: "none", border: "none" }}
+            >
+              <img
+                src={heartIcon}
+                alt="Like"
+                style={{ width: "24px", height: "24px" }}
+              />
             </button>
-            <button onClick={() => handleUnlike(post._id)} style={{ background: 'none', border: 'none' }}>
-              <img src={heartIcon} alt="Unlike" style={{ width: '24px', height: '24px', opacity: 0.5 }} />
+            <button
+              onClick={() => handleUnlike(post._id)}
+              style={{ background: "none", border: "none" }}
+            >
+              <img
+                src={heartIcon}
+                alt="Unlike"
+                style={{ width: "24px", height: "24px", opacity: 0.5 }}
+              />
             </button>
           </div>
           {/* Comment section */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: 'center', flex: 1 }}>
-            <input type="text" placeholder="Add comment" 
+          <div
             style={{
-              border: "2px solid #ccc", // Light grey border
-              borderRadius: "4px", // Slightly rounded corners for a modern look
-              padding: "8px", // Inside spacing for the text
-              width: "80%", // Making the input take up 80% of the parent width
-              maxWidth: "500px", // Maximum width to ensure it doesn't get too wide on large screens
-            }}/>
-            <button onClick={() => handleAddComment(post._id, "New comment")}>
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              alignItems: "center",
+              flex: 1,
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Add comment"
+              style={{
+                border: "2px solid #ccc",
+                borderRadius: "4px",
+                padding: "8px",
+                width: "80%",
+                maxWidth: "500px",
+              }}
+              value={comments[post._id] || ""}
+              onChange={(event) => handleChange(event, post._id)}
+            />
+            <button
+              onClick={() => handleAddComment(post._id, comments[post._id])}
+            >
               Add Comment
             </button>
           </div>
