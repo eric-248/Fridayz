@@ -123,8 +123,8 @@ const Posts = () => {
               </div>
             ))}
           </div>
-          Likes {post.likes}
-          <div className="comments-container">
+         
+          <div className="comments-container" style={{ flex: 1 }}>
             Comments:
             {post.comments[0] &&
               post.comments.map((comment, index) => (
@@ -134,13 +134,26 @@ const Posts = () => {
               ))}
           </div>
           {/* Like/unlike buttons */}
+          <div style={{ marginLeft: "40px"}}>  
+            Likes {post.likes} </div>
           <div>
-            <button onClick={() => handleLike(post._id)}>Like</button>
-            <button onClick={() => handleUnlike(post._id)}>Unlike</button>
+          <button onClick={() => handleLike(post._id)} style={{ background: 'none', border: 'none' }}>
+              <img src={heartIcon} alt="Like" style={{ width: '24px', height: '24px' }} />
+            </button>
+            <button onClick={() => handleUnlike(post._id)} style={{ background: 'none', border: 'none' }}>
+              <img src={heartIcon} alt="Unlike" style={{ width: '24px', height: '24px', opacity: 0.5 }} />
+            </button>
           </div>
           {/* Comment section */}
-          <div>
-            <input type="text" placeholder="Add comment" />
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: 'center', flex: 1 }}>
+            <input type="text" placeholder="Add comment" 
+            style={{
+              border: "2px solid #ccc", // Light grey border
+              borderRadius: "4px", // Slightly rounded corners for a modern look
+              padding: "8px", // Inside spacing for the text
+              width: "80%", // Making the input take up 80% of the parent width
+              maxWidth: "500px", // Maximum width to ensure it doesn't get too wide on large screens
+            }}/>
             <button onClick={() => handleAddComment(post._id, "New comment")}>
               Add Comment
             </button>
