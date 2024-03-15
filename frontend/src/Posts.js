@@ -88,7 +88,7 @@ const Posts = () => {
       {posts.map((post) => (
         <div
           key={post._id}
-          className="square"
+          className="commentsSquare"
           style={{
             backgroundColor: "white",
             padding: "20px",
