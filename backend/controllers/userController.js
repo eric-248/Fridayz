@@ -156,6 +156,11 @@ const UserController = {
         return res.status(404).json({ message: "User not found" });
       }
 
+      // Check if the friendId already exists in the user's friends list
+      if (user.friends.includes(friendId)) {
+        return res.status(400).json({ message: "Friend already exists" });
+      }
+
       user.friends.push(friendId);
       await user.save();
 

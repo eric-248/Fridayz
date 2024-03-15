@@ -24,27 +24,18 @@ const FriendPage = () => {
         }
       );
       setUser(response.data); // Update user state with profile data
-      setFriends(response.data.friends);
-      console.log(friends);
+      setFriends([...response.data.friends]);
     } catch (error) {
       console.error("Error fetching user profile:", error);
     }
   };
-
-  useEffect(() => {
-    //console.log(user);
-    console.log(friends);
-    fetchUserProfile();
-    console.log(friends);
-    //console.log(friends);
-  }, []);
 
   const removeFriend = (id) => {
     setFriends(friends.filter((friend) => friend.id !== id));
   };
 
   const addFriend = async (friendId) => {
-    console.log(friendId);
+    //console.log(friendId);
     if (friendId) {
       try {
         const token = localStorage.getItem("token");
@@ -58,12 +49,22 @@ const FriendPage = () => {
             },
           }
         );
-        console.log(response.data.message); // "Friend added successfully"
+        window.alert(response.data.message); // "Friend added successfully"
+        window.location.reload();
       } catch (error) {
         console.error("Error adding friend:", error);
+        window.alert("Friend already added");
       }
     }
   };
+
+  useEffect(() => {
+    console.log(friends); // This will log the updated friends state after it's been set
+  }, [friends, addFriend]);
+
+  useEffect(() => {
+    fetchUserProfile(); // Fetch user profile when component mounts
+  }, []);
 
   const acceptFriend = (id) => {
     setFriends(
@@ -79,8 +80,7 @@ const FriendPage = () => {
 
   const filteredFriends = friends.filter(
     (friend) =>
-      friend.name &&
-      friend.name.toLowerCase().includes(searchQuery.toLowerCase())
+      friend && friend.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -102,24 +102,11 @@ const FriendPage = () => {
       >
         Add Friend
       </button>
-      {/* {friends &&
-        filteredFriends.map((friend) => (
-          <Friend
-            key={friend.id}
-            name={friend.name}
-            pictureUrl={friend.pictureUrl}
-            onRemove={() => removeFriend(friend.id)}
-            status={friend.status}
-            onAccept={() => acceptFriend(friend.id)}
-          />
-        ))} */}
-      {/* <div className="friends-list-container">
-        <ul className="friends-list">
-          {friends.map((friend, index) => (
-            <li key={index}>{friend}</li>
-          ))}
-        </ul>
-      </div> */}
+      <ul className="friends-list">
+        {filteredFriends.map((friend) => (
+          <li key={friend}>{friend}</li>
+        ))}
+      </ul>
     </div>
   );
 };

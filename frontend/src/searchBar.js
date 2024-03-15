@@ -5,7 +5,25 @@ const SearchBar = ({ selectedUser, setSelectedUser }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [visible, setVisible] = useState(false);
+  const [currUser, setUser] = useState(null);
   const dropdownRef = useRef(null); // Use useRef for mutable ref object
+
+  const fetchUserProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        "http://localhost:5050/api/users/profile",
+        {
+          headers: {
+            Authorization: token, // Include JWT token in the Authorization header
+          },
+        }
+      );
+      setUser(response.data); // Update user state with profile data
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
 
   function getAllUsernames() {
     axios
@@ -22,8 +40,17 @@ const SearchBar = ({ selectedUser, setSelectedUser }) => {
 
   useEffect(() => {
     getAllUsernames();
+    fetchUserProfile();
+    console.log(allUsers);
     //console.log(allUsers);
   }, []);
+
+  useEffect(() => {
+    // Filter current user once allUsers state is updated
+    if (currUser && allUsers.length > 0) {
+      filterCurrentUser(allUsers);
+    }
+  }, [allUsers, currUser]);
 
   useEffect(() => {
     // Function to close the dropdown when clicking outside of it
@@ -46,6 +73,11 @@ const SearchBar = ({ selectedUser, setSelectedUser }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [visible]);
+
+  function filterCurrentUser(usernames) {
+    //console.log(usernames);
+    return usernames.filter((username) => username !== currUser.username);
+  }
 
   const handleUserClick = (username) => {
     setSelectedUser(username); // Set the selected username

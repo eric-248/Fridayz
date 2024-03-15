@@ -13,6 +13,7 @@ const HomePage = () => {
     fetchUserProfile(); // Fetch user profile on component mount
     fetchBeans();
     fetchPosts();
+    console.log("posts", posts);
   }, []);
 
   const fetchUserProfile = async () => {
