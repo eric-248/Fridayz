@@ -133,7 +133,7 @@ const Posts = () => {
             <Link to={`/profile/${post.username}`}>{post.username}</Link>
           </h2>
           {/* Display beans associated with the post */}
-          <div style={{ marginRight: "40px" }}>
+          <div style={{ marginRight: "40px", flex: 1 }}>
             {post.beans.map((bean) => (
               <div key={bean._id}>
                 {/* {bean.type === "text" ? ( */}
@@ -154,7 +154,7 @@ const Posts = () => {
             ))}
           </div>
          
-          <div className="comments-container">
+          <div className="comments-container" style={{ flex: 1 }}>
             Comments:
             {post.comments[0] &&
               post.comments.map((comment, index) => (
@@ -164,7 +164,7 @@ const Posts = () => {
               ))}
           </div>
           {/* Like/unlike buttons */}
-          <div style={{ marginLeft: "40px" }}>  
+          <div style={{ marginLeft: "40px"}}>  
             Likes {post.likes} </div>
           <div>
           <button onClick={() => handleLike(post._id)} style={{ background: 'none', border: 'none' }}>
@@ -175,7 +175,7 @@ const Posts = () => {
             </button>
           </div>
           {/* Comment section */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: 'center' }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px", alignItems: 'center', flex: 1 }}>
             <input type="text" placeholder="Add comment" 
             style={{
               border: "2px solid #ccc", // Light grey border
