@@ -3,9 +3,7 @@ Start the backend:
 - `npm i`
 - `node index.js`
   
-- Windows users: If you face an error after running node index.js, run
-- `npm rebuild bcrypt --build-from-source
-- then run `node index.js again
+- Windows users: If you face an error after running node index.js, run `npm rebuild bcrypt --build-from-source` then run `node index.js again`
 
 Start the frontend:
 - Go into the frontend folder)
