@@ -6,7 +6,7 @@ import Beans from "./Beans";
 const HomePage = () => {
   const [beans, setBeans] = useState([]);
   const [posts, setPosts] = useState([]);
-  const [showPosts, setShowPosts] = useState(true);
+  const [showPosts, setShowPosts] = useState(false);
   const [user, setUser] = useState(null); // State to store user profile
 
   useEffect(() => {
@@ -70,10 +70,13 @@ const HomePage = () => {
         }
       );
       console.log("Post created:", response.data);
-      setShowPosts(true); // Show posts after posting beans
     } catch (error) {
       console.error("Error posting beans:", error);
     }
+  };
+
+  const handleFriday = async () => {
+    setShowPosts(true); // Show posts after posting beans
   };
 
   return (
@@ -82,9 +85,9 @@ const HomePage = () => {
       {!user && <h1>Please log in or register!</h1>}
       <Beans />
       <div>
-        <button onClick={handlePostBeans}>It's Friday!</button>
+        <button onClick={handleFriday}>It's Friday!</button>
       </div>
-      {showPosts && <Posts posts={posts} />}
+      {!!user && showPosts && <Posts posts={posts} />}
     </div>
   );
 };
