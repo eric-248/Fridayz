@@ -102,11 +102,12 @@ const FriendPage = () => {
       >
         Add Friend
       </button>
-      <ul className="friends-list">
+      <ul className="my-friends">
         {filteredFriends.map((friend) => (
           <li key={friend}>{friend}</li>
         ))}
       </ul>
+
     </div>
   );
 };

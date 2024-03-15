@@ -280,6 +280,29 @@ code {
   margin-bottom: 10px; /* Add some spacing between each friend */
 }
 
+.my-friends {
+  max-height: 1080px; /* Adjust the height as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ccc; /* Optional: adds a border around the comments container */
+  background-color: white;
+  padding: 20px; /* Adds some padding inside the container */
+  margin-top: 20px; /* Separates the container from elements above it */
+  border-radius: 10px;
+  list-style-type: none;
+  gap: 10px;
+  width: 30%;
+  
+}
+
+.my-friends li {
+  background-color: rgba(202, 149, 192, 0.5); /* Adds opacity to the background color */
+  padding: 10px; /* Adds padding inside each box */
+  border-radius: 5px; /* Rounds the corners of each box */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+  margin-bottom: 30px; /* Increases the margin below each box */
+}
+
+
 
 .dropdown-box {
   position: relative;
