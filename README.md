@@ -1,13 +1,13 @@
 Start the backend:
-- Modify the .env file with the correct port, mongoDB URL, and a secure JWT token
+- Go into the backend folder
 - `npm i`
 - `node index.js`
 
 Start the frontend:
-- Go into the main project folder (not inside the frontend or backend folder)
+- Go into the frontend folder)
 - Install the following project dependencies:
   `npm install`
-  `npm install -D react-router-dom`
+  `npm install react-router-dom`
 - Run the program with:
   `npm run start`
 
