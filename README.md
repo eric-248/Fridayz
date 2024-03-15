@@ -26,6 +26,8 @@ In .env file, add mongodb connection string into MONGODB_URI
 ## It is possible that you may run into issues when starting the backend, the following commands may help:
 - Windows users: If you face an error after running node index.js, run `npm rebuild bcrypt --build-from-source` then run `node index.js` again
 
+- for mac users you may need to run these commands:  
+  
 `sudo chown -R your_username <path to node_modules folder>`  
 
 `chmod +x <path to node_modules folder>.bin/*`  
@@ -38,6 +40,8 @@ In .env file, add mongodb connection string into MONGODB_URI
 
 
 ## It is possible that you may run into issues when starting the frontend, the following command may help:
+-  for mac users you may need to run these commands:
+
 
 `sudo chown -R your_username <path to main project folder>`  
 
