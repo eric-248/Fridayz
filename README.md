@@ -1,12 +1,25 @@
 # Welcome to Starting Fridayz!
 
-##Introduction
+# Introduction
 Fridayz is an app for users to add thoughts (what we call beans as a reference to the phrase "spill the beans") to their post which will go live every Friday. With our app, going live on Friday is simulated by the "It's Friday" button. Stay connected with friends and receive updates on other's lives through this app!
 
-##Components
+# Features
+- Weekly Blogging: Users can create and add to their blog throughout the week, adding thoughts (Beans) that record time stamps. The Beans are compiled and posted publicly, allowing friends to view, comment, and engage with the content.
+- Community Engagement: Users can view their friends' posts, comment on them, and foster a community of support and interaction by allowing them to express how much or how little they like their posts.
+- Profile Customization: A dedicated profile page for users to personalize and manage their account details and blog preferences.
 
-##Setup
-In .env file, add mongodb connection string into MONGODB_URI  
+# Components
+Backend: see README in backend folder for APIs
+Technologies Used
+- Javascript 
+- Node.js 
+- React.js 
+- Express.js 
+- MongoDB
+
+# Setup
+In .env file, add mongodb connection string into MONGODB_URI (connection string included in final report) 
+In backend folder in index.js, replace with frontend origin if frontend is not able to run on port 3000
 
 Start the backend:  
 - Go into the backend folder ( `cd backend`)
@@ -50,10 +63,10 @@ It is possible that you may run into issues when starting the frontend, the foll
 
 `chmod +x <path to node_modules folder>.bin/*`  
 
-##Commands
-git clone 
+# Commands
+git clone https://github.com/eric-248/Fridayz.git
 
-##Contributors
+# Contributors
 Made by Drew Wan, Eric Du, and Lauren Mirhan
 
 
